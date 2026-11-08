@@ -165,14 +165,15 @@ footer b{color:var(--gold)}
   </div>
   <div class="notice"><span>⚠️</span><div><b>قبل ما تنشر:</b> كل بطاقة عليها حالة التحقق وحالة المطابقة مع مرجع التشريعات (لو متوفر). أرقام المواد والنصوص النهائية لازم تتأكد من الجريدة الرسمية «الكويت اليوم».</div></div>
   <div class="grid" id="grid"></div>
-  <footer>اضغط على الخبر ← <b>انسخه</b> ← الصقه في المحادثة · الحالة تنحفظ في متصفحك، وتقدر تنقلها بـ «تصدير الحالة»</footer>
+  <footer>اضغط على الخبر ← <b>انسخه</b> (كاروسيل أو ريلز) ← الصقه في المحادثة · الحالة تنحفظ في متصفحك، وتقدر تنقلها بـ «تصدير الحالة»</footer>
 </div>
 
 <div class="bulk" id="bulk"></div>
 <div class="overlay" id="ov"></div>
 <aside class="drawer" id="dr" aria-hidden="true"></aside>
 <div class="drawer-bar" id="bar">
-  <button class="btn" id="copyBtn">📋 انسخ الخبر للكاروسيل</button>
+  <button class="btn" id="copyBtn">📋 كاروسيل</button>
+  <button class="btn" id="copyReelBtn">🎬 ريلز</button>
   <button class="btn ghost" id="fwdBtn">⏳ قيد الإنجاز</button>
   <button class="btn ghost" id="backBtn">↩ رجوع</button>
   <button class="btn ghost red" id="delBtn">🗑 حذف</button>
@@ -262,7 +263,7 @@ function pcard(n,t){
   const car=carOf(n),m=meta(n.id);
   const open=car?`<a class="btn-s" href="${esc(car)}" target="_blank" rel="noopener">فتح الكاروسيل</a>`:"";
   let btns="";
-  if(t==="prog")btns=`<button class="btn-s" data-copy="${esc(n.id)}">📋 نسخ</button><button class="btn-s gold" data-act="ready" data-id="${esc(n.id)}">✓ جاهز</button><button class="btn-s" data-act="new" data-id="${esc(n.id)}">↩</button><button class="btn-s red" data-act="del" data-id="${esc(n.id)}">🗑</button>`;
+  if(t==="prog")btns=`<button class="btn-s" data-copy="${esc(n.id)}">📋 كاروسيل</button><button class="btn-s" data-copy="${esc(n.id)}" data-kind="reel">🎬 ريلز</button><button class="btn-s gold" data-act="ready" data-id="${esc(n.id)}">✓ جاهز</button><button class="btn-s" data-act="new" data-id="${esc(n.id)}">↩</button><button class="btn-s red" data-act="del" data-id="${esc(n.id)}">🗑</button>`;
   else btns=`${open}<button class="btn-s gold" data-act="pub" data-id="${esc(n.id)}">📣 منشور</button><button class="btn-s" data-act="prog" data-id="${esc(n.id)}">↩ قيد الإنجاز</button>`;
   return`<div class="pc"><div class="t" data-open="${esc(n.id)}">${esc(n.title)}<small>${esc(n.cat)} · ${esc(n.date)}${m.pubAt?" · نُشر "+esc(m.pubAt):""}</small></div><div class="mini">${btns}</div></div>`;
 }
@@ -319,7 +320,7 @@ document.addEventListener("click",e=>{
   if((el=t.closest("[data-sel]"))){e.stopPropagation();const id=el.dataset.sel;sel.has(id)?sel.delete(id):sel.add(id);renderGrid();renderBulk();return}
   if((el=t.closest("[data-act]"))){e.stopPropagation();doAct(el.dataset.act,[el.dataset.id]);return}
   if((el=t.closest("[data-bulk]"))){const a=el.dataset.bulk;if(a==="clear"){sel.clear();renderGrid();renderBulk()}else doAct(a,[...sel]);return}
-  if((el=t.closest("[data-copy]"))){copyNews(find(el.dataset.copy));return}
+  if((el=t.closest("[data-copy]"))){copyNews(find(el.dataset.copy),el.dataset.kind);return}
   if((el=t.closest("[data-open]"))){openDrawer(el.dataset.open);return}
   if(t.closest("a[href]")){return}
   if((el=t.closest(".tab"))){tab=el.dataset.t;cat="الكل";sel.clear();render();return}
@@ -390,21 +391,27 @@ $("#fwdBtn").onclick=()=>{if(cur&&$("#fwdBtn").dataset.to)doAct($("#fwdBtn").dat
 $("#backBtn").onclick=()=>{if(cur&&$("#backBtn").dataset.to)doAct($("#backBtn").dataset.to,[cur.id])};
 $("#delBtn").onclick=()=>{if(cur)doAct("del",[cur.id])};
 
-function buildText(n){
+const HEAD={
+  carousel:"ابنِ لي كاروسيل عن هالخبر:",
+  reel:"ابي ريلز (مو كاروسيل) عن هالخبر. اكتب لي سكربت بلهجتي الكويتية أسجله بصوتي (هوك، نقاط قصيرة، طلب، من 30 إلى 45 ثانية). بعد ما أرسل لك التسجيل نظّفه وسوّ الفيديو بمهارة voice-video:"
+};
+function buildText(n,kind){
   const L=n.legis,lg=[];
   if(L){(L.decrees||[]).forEach(d=>lg.push(d.ref+": "+({found:"موجود بالمرجع",mentioned:"مذكور بالمرجع",missing:"غير موجود بالمرجع"}[d.status]||d.status)+(d.laws&&d.laws[0]?" ص PDF "+d.laws[0].pdf_page:"")));(L.refs||[]).forEach(r=>lg.push(r.law+" المادة "+r.article+(r.pdf_page?" ص PDF "+r.pdf_page:"")))}
-  return["ابنِ لي كاروسيل عن هالخبر:","","العنوان: "+n.title,"التصنيف: "+n.cat+" | التاريخ: "+n.date,"الخلاصة: "+n.sum,"النقاط:",...(n.pts||[]).map(p=>"- "+p),
+  return[HEAD[kind]||HEAD.carousel,"","العنوان: "+n.title,"التصنيف: "+n.cat+" | التاريخ: "+n.date,"الخلاصة: "+n.sum,"النقاط:",...(n.pts||[]).map(p=>"- "+p),
     n.angle?"زاوية مقترحة: "+n.angle.replace(/<[^>]+>/g,""):"",
     lg.length?"التحقق من المرجع:\n"+lg.map(x=>"- "+x).join("\n"):"",
     "حالة التحقق: "+n.verTxt,"المصادر: "+(n.src||[]).map(s=>s[1]).join(" , "),"معرّف الخبر: "+n.id].filter(Boolean).join("\n");
 }
 async function writeClip(t){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}}
-async function copyNews(n){
-  await writeClip(buildText(n));
-  if(stOf(n.id)==="new")toast("تم النسخ ✓ الصقه في المحادثة","نقله لقيد الإنجاز",()=>setStatus([n.id],"prog","نُقل لقيد الإنجاز"));
-  else toast("تم النسخ ✓ الصقه في المحادثة");
+async function copyNews(n,kind){
+  await writeClip(buildText(n,kind));
+  const what=kind==="reel"?"طلب ريلز":"طلب كاروسيل";
+  if(stOf(n.id)==="new")toast("تم نسخ "+what+" ✓ الصقه في المحادثة","نقله لقيد الإنجاز",()=>setStatus([n.id],"prog","نُقل لقيد الإنجاز"));
+  else toast("تم نسخ "+what+" ✓ الصقه في المحادثة");
 }
-$("#copyBtn").onclick=()=>{if(cur)copyNews(cur)};
+$("#copyBtn").onclick=()=>{if(cur)copyNews(cur,"carousel")};
+$("#copyReelBtn").onclick=()=>{if(cur)copyNews(cur,"reel")};
 
 function buildRefresh(){
   const c=counts(),rep=c.pub+c.del+c.gone,ex=[];

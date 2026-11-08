@@ -10,6 +10,7 @@
 | `legal-carousel` | تحوّل الخبر لكاروسيل بقواعد أسلوبك مع فحص قواعد وفحص تصميم آلي ومعاينة |
 | `export-png` | تحفظ الشرائح PNG عالية الدقة بفولدرك |
 | `schedule-draft` | تجهز مسودة نشر في Metricool بدون نشر تلقائي |
+| `voice-video` | من تسجيلك الصوتي أو فيديو الكلام إلى فيديو 9:16: تقص الوقفات والكلام الزايد، تحسّن الصوت، وتركّب كابشن عربي بهويتك (محلي على جهازك) |
 
 ## التشغيل (أول مرة)
 1. افتح جلسة Code بفولدر مشروعك (فيه شعارك وكاروسيلاتك السابقة).
@@ -35,7 +36,7 @@ Python 3.8+ وChrome أو Edge. Pillow لتجهيز الشعار فقط (`python
 ## هيكل الملفات
 ```
 .claude-plugin/plugin.json
-skills/{brand-setup,news-board,legal-carousel,export-png,schedule-draft}/SKILL.md
+skills/{brand-setup,news-board,legal-carousel,export-png,schedule-draft,voice-video}/SKILL.md
 scripts/{build.py,check_deck.py,export_slides.py,tint_logo.py}
 templates/{carousel.template.html,dashboard.template.html}
 fonts/Cairo-*.woff2 · fonts/OFL.txt
