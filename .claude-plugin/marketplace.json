@@ -1,0 +1,11 @@
+{
+  "name": "alwaalan-plugins",
+  "owner": { "name": "Abdulaziz Alwaalan" },
+  "plugins": [
+    {
+      "name": "legal-carousel",
+      "source": "./legal-carousel",
+      "description": "مصنع كاروسيل التوعية القانونية: هوية، داشبورد أخبار، كاروسيل 3:4، تصدير PNG."
+    }
+  ]
+}

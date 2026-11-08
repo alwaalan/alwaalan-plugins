@@ -1,0 +1,276 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="slide-count" content="__COUNT__">
+<meta name="slide-size" content="__SIZE__">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=__FONT_Q__:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--bg:#0E1B2E;--bg2:#12233A;--card:#1B3050;--card-hot:#26405F;--gold:#C9A55C;--text:#F3EFE6;--muted:#8FA0B8;--rgb:201,165,92;--font:'Cairo'}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font),'Cairo',sans-serif;background:#09121f;color:var(--text);direction:rtl;text-align:right;min-height:100vh}
+.logo-s,.logo-b{background:url(data:image/png;base64,__LOGO__) center/contain no-repeat}
+
+/* ===== viewer chrome ===== */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid rgba(var(--rgb),.3);background:var(--bg)}
+.top h1{font-size:19px;font-weight:800;flex:1;min-width:200px}
+.top h1 em{font-style:normal;color:var(--gold)}
+.btn{font:inherit;font-weight:700;font-size:14.5px;border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid var(--gold);background:var(--gold);color:var(--bg)}
+.btn.ghost{background:transparent;color:var(--gold)}
+.btn:disabled{opacity:.5;cursor:wait}
+select{font:inherit;font-size:14px;background:var(--card);color:var(--text);border:1px solid rgba(var(--rgb),.4);border-radius:10px;padding:8px 10px}
+.main{display:flex;gap:28px;justify-content:center;align-items:flex-start;padding:22px;flex-wrap:wrap}
+.stage-col{display:flex;flex-direction:column;align-items:center;gap:14px}
+.stage{position:relative;overflow:hidden;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+.sl-wrap{position:absolute;top:0;left:0;transform-origin:top left;display:none}
+.sl-wrap.on{display:block}
+.nav{display:flex;align-items:center;gap:16px}
+.dots{display:flex;gap:8px;direction:ltr}
+.dots i{width:10px;height:10px;border-radius:50%;background:rgba(143,160,184,.35);cursor:pointer}
+.dots i.on{background:var(--gold)}
+.counter{direction:ltr;color:var(--muted);font-weight:700;min-width:44px;text-align:center}
+.side{width:min(420px,100%);display:flex;flex-direction:column;gap:14px}
+.box{background:var(--bg);border:1px solid rgba(var(--rgb),.3);border-radius:14px;padding:16px 18px}
+.box h3{color:var(--gold);font-size:15px;margin-bottom:8px}
+.box pre{white-space:pre-wrap;font-family:inherit;font-size:14.5px;line-height:1.8;color:#d8dfeb}
+.box ul{padding-right:18px;font-size:14px;color:#d8dfeb;line-height:1.9}
+.box a{color:var(--gold)}
+.box .note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);padding:11px 22px;border-radius:999px;font-weight:800;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.show{opacity:1}
+
+/* ===== slides ===== */
+.slide{width:1080px;height:1440px;position:relative;overflow:hidden;background:var(--bg);font-family:var(--font),'Cairo',sans-serif;direction:rtl;text-align:right;color:var(--text)}
+.slide.alt{background:var(--bg2)}
+.pat{position:absolute;inset:0;width:1080px;height:1440px}
+.frame{position:absolute;left:40px;top:40px;right:40px;bottom:40px;border:2px solid rgba(var(--rgb),.6)}
+.hd{position:absolute;top:96px;left:90px;right:90px;height:64px;display:flex;justify-content:space-between;align-items:center}
+.tag{font-size:42px;font-weight:700;color:var(--muted);unicode-bidi:isolate}
+.cnt{font-size:44px;font-weight:800;color:var(--gold);direction:ltr;unicode-bidi:isolate}
+.logo-s{position:absolute;top:54px;left:50%;margin-left:-52px;width:104px;height:208px}
+.ft{position:absolute;left:90px;right:90px;top:1290px;height:110px;box-sizing:border-box;border-top:3px solid var(--gold);padding:0;display:flex;justify-content:space-between;align-items:center}
+.ft .nm{font-size:40px;font-weight:800;color:var(--text)}
+.ft .hn{font-size:38px;font-weight:700;color:var(--muted);direction:ltr;unicode-bidi:isolate}
+.mid{position:absolute;left:90px;right:90px;top:272px;bottom:150px;display:flex;flex-direction:column;justify-content:center}
+.ico{display:flex;justify-content:center;margin-bottom:54px}
+.ico svg{width:210px;height:210px;fill:none;stroke:var(--gold);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.txt{display:flex;flex-direction:column;align-items:flex-start}
+.num{font-size:80px;font-weight:900;color:var(--gold);line-height:1.1}
+h2{font-size:92px;font-weight:900;line-height:1.28;color:var(--text);margin-top:6px}
+h2 b{color:var(--gold);font-weight:900}
+p.b{font-size:46px;font-weight:400;line-height:1.7;color:var(--text);margin-top:18px}
+.pill{margin-top:28px;font-size:44px;font-weight:800;color:var(--gold);background:var(--card);border:3px solid var(--gold);border-radius:999px;padding:12px 38px}
+.sub{font-size:42px;font-weight:600;color:var(--muted)}
+
+/* cover */
+.cover .logo-b{position:absolute;top:120px;left:50%;margin-left:-105px;width:210px;height:420px}
+.cover .txt{position:absolute;left:90px;right:90px;bottom:250px}
+.cover h2{font-size:136px;line-height:1.2;margin-top:0}
+.cover p.b{font-size:58px;font-weight:600;line-height:1.55;margin-top:30px}
+.cover .go{font-size:56px;font-weight:800;color:var(--gold);margin-top:34px}
+
+/* list / chips / steps / cta */
+.rows{width:100%;display:flex;flex-direction:column;gap:18px;margin-top:26px}
+.row{background:var(--card);border:2px solid rgba(var(--rgb),.4);border-radius:28px;padding:24px 34px;display:flex;justify-content:space-between;align-items:center}
+.row .n{font-size:48px;font-weight:800;color:var(--text)}
+.row .y{font-size:46px;font-weight:800;color:var(--gold)}
+.chips{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.chip{background:var(--card);border:2px solid rgba(var(--rgb),.35);border-radius:26px;padding:16px 22px;font-size:40px;font-weight:700;color:var(--text);line-height:1.35;display:flex;align-items:center;min-height:104px}
+.chip.hot{border-color:var(--gold);background:var(--card-hot);color:var(--gold);font-weight:900}
+.steps{width:100%;display:flex;flex-direction:column;gap:18px;margin-top:26px}
+.step{background:var(--card);border:2px solid rgba(var(--rgb),.4);border-radius:28px;padding:20px 30px}
+.step .w{font-size:54px;font-weight:900;color:var(--gold);line-height:1.25}
+.step .d{font-size:40px;font-weight:600;color:var(--text);line-height:1.5}
+.cta{margin-top:40px;width:100%;background:var(--card);border:3px solid var(--gold);border-radius:36px;padding:34px 40px;display:flex;justify-content:space-between;align-items:center}
+.cta .l1{font-size:44px;font-weight:800;color:var(--text)}
+.cta .l2{font-size:42px;font-weight:600;color:var(--muted)}
+.cta .ph{font-size:68px;font-weight:900;color:var(--gold);direction:ltr;unicode-bidi:isolate}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1 id="ttl"></h1>
+  <label style="font-size:14px;color:var(--muted)">الدقة
+    <select id="scale"><option value="1" id="o1"></option><option value="2" id="o2" selected></option></select>
+  </label>
+  <button class="btn ghost" id="saveOne">⬇ حفظ هذه الشريحة PNG</button>
+  <button class="btn ghost" id="saveSeq">⬇ كل الصور (منفردة)</button>
+  <button class="btn" id="saveZip">⬇ كل الصور ZIP</button>
+</div>
+
+<div class="main">
+  <div class="stage-col">
+    <div class="stage" id="stage"></div>
+    <div class="nav">
+      <button class="btn ghost" id="next">التالي ›</button>
+      <div class="dots" id="dots"></div>
+      <span class="counter" id="counter"></span>
+      <button class="btn ghost" id="prev">‹ السابق</button>
+    </div>
+  </div>
+  <div class="side">
+    <div class="box" id="capBox"><h3>الكابشن المقترح</h3><pre id="cap"></pre><div style="margin-top:10px"><button class="btn" id="copyCap">📋 انسخ الكابشن</button></div></div>
+    <div class="box"><h3>المصادر</h3><ul id="srcs"></ul><p class="note" id="notes"></p></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div id="deck" style="display:none"></div>
+
+<script>
+var BRAND=__BRAND_JSON__;
+var DECK=__DECK_JSON__;
+var C=BRAND.colors, CW=(BRAND.size||{}).w||1080, CH=(BRAND.size||{}).h||1440;
+var META=DECK.meta||{};
+
+/* ---- theme ---- */
+function hexRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(function(x){return x+x}).join('');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)].join(',')}
+var RS=document.documentElement.style;
+RS.setProperty('--bg',C.bg);RS.setProperty('--bg2',C.bgAlt||C.bg);RS.setProperty('--card',C.card);
+RS.setProperty('--card-hot',C.cardHot||C.card);RS.setProperty('--gold',C.accent);RS.setProperty('--text',C.text);
+RS.setProperty('--muted',C.muted);RS.setProperty('--rgb',hexRgb(C.accent));RS.setProperty('--font',"'"+(BRAND.font||'Cairo')+"'");
+
+/* ---- icons (200x200 viewBox, stroke only) ---- */
+var ICONS={
+ doc:'<rect x="48" y="18" width="104" height="156" rx="12"/><path d="M72 62h56M72 94h56M72 126h34"/>',
+ shield:'<path d="M100 14l62 24v50c0 44-28 72-62 90-34-18-62-46-62-90V38z"/><path d="M68 100l22 22 42-46"/>',
+ chat:'<path d="M30 34h140a12 12 0 0 1 12 12v72a12 12 0 0 1-12 12H100l-40 34v-34H30a12 12 0 0 1-12-12V46a12 12 0 0 1 12-12z"/><path d="M58 76h84M58 104h52"/>',
+ plane:'<path d="M18 92L184 22l-50 150-36-54z"/><path d="M98 118L184 22"/>',
+ bookmark:'<path d="M52 18h96v164l-48-34-48 34z"/>',
+ scale:'<path d="M100 20v150M60 170h80M40 60h120"/><path d="M40 60l-24 56a28 28 0 0 0 48 0zM160 60l-24 56a28 28 0 0 0 48 0z"/>',
+ gavel:'<path d="M70 60l40-40 36 36-40 40zM98 98l-62 62M40 176h80"/>',
+ clock:'<circle cx="100" cy="100" r="76"/><path d="M100 54v50l32 20"/>',
+ key:'<circle cx="62" cy="100" r="34"/><circle cx="62" cy="100" r="6"/><path d="M96 100h88M150 100v30M172 100v22"/>',
+ warning:'<path d="M100 22l84 148H16z"/><path d="M100 76v48M100 146v4"/>',
+ people:'<circle cx="70" cy="70" r="26"/><circle cx="140" cy="84" r="20"/><path d="M24 168c0-30 20-48 46-48s46 18 46 48M118 160c4-22 16-34 34-34 20 0 30 14 30 34"/>',
+ building:'<path d="M30 170h140M50 170V70l50-34 50 34v100M80 170v-50h40v50M70 96h8M122 96h8"/>',
+ money:'<circle cx="100" cy="100" r="76"/><path d="M100 54v92M122 78c-6-8-16-12-24-12-14 0-24 8-24 18 0 24 52 10 52 36 0 10-10 18-26 18-10 0-20-4-26-12"/>',
+ car:'<path d="M26 128v-30l22-40h104l22 40v30M26 128h148M62 128v14M138 128v14"/><circle cx="62" cy="112" r="8"/><circle cx="138" cy="112" r="8"/>',
+ home:'<path d="M24 100L100 30l76 70M44 88v82h112V88M84 170v-46h32v46"/>',
+ phone:'<rect x="62" y="16" width="76" height="168" rx="16"/><path d="M92 164h16"/>'
+};
+function icon(name){return '<div class="ico"><svg viewBox="0 0 200 200">'+(ICONS[name]||ICONS.doc)+'</svg></div>'}
+
+/* ---- slide builders ---- */
+function pat(){return '<svg class="pat" viewBox="0 0 '+CW+' '+CH+'"><defs><pattern id="pp" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="34" stroke="'+C.muted+'" stroke-opacity=".07" stroke-width="1.5"/></pattern></defs><rect width="'+CW+'" height="'+CH+'" fill="url(#pp)"/></svg>'}
+function head(s,i,n){return '<div class="frame"></div><div class="hd"><span class="tag">'+(s.tag||'')+'</span><span class="cnt">'+n+'/'+(i+1)+'</span></div>'}
+function foot(){return '<div class="ft"><span class="nm">'+BRAND.name+'</span><span class="hn">'+BRAND.handle+'</span></div>'}
+function h2(s){return '<h2'+(s.titleSize?' style="font-size:'+s.titleSize+'px"':'')+'>'+s.title+'</h2>'}
+function num(s){return s.num?'<div class="num">'+s.num+'</div>':''}
+function body(s){return s.body?'<p class="b">'+s.body+'</p>':''}
+function pill(s){return s.pill?'<div class="pill">'+s.pill+'</div>':''}
+
+function build(s,i,n){
+  var last=(i===n-1), cls='slide'+((s.alt||s.type==='save')?' alt':'')+(s.type==='cover'?' cover':'');
+  var inner='';
+  switch(s.type){
+   case 'cover':
+     inner=head(s,i,n)+'<div class="logo-b"></div><div class="txt"><h2>'+(Array.isArray(s.h1)?s.h1.join('<br>'):s.h1)+'</h2>'
+       +(s.sub?'<p class="b">'+s.sub+'</p>':'')+(s.go?'<div class="go">'+s.go+'</div>':'')+'</div>';
+     break;
+   case 'list':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="rows">'
+       +s.rows.map(function(r){return '<div class="row"><span class="n">'+r[0]+'</span><span class="y">'+r[1]+'</span></div>'}).join('')+'</div>'
+       +(s.note?'<div class="sub" style="margin-top:30px">'+s.note+'</div>':'')+'</div></div>';
+     break;
+   case 'chips':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="chips">'
+       +s.items.map(function(it){var o=typeof it==='string'?{t:it}:it;return '<div class="chip'+(o.hot?' hot':'')+'">'+o.t+'</div>'}).join('')+'</div></div></div>';
+     break;
+   case 'steps':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="steps">'
+       +s.steps.map(function(r){return '<div class="step"><div class="w">'+r[0]+'</div><div class="d">'+r[1]+'</div></div>'}).join('')+'</div></div></div>';
+     break;
+   case 'save':
+     var cta=BRAND.cta||{};
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid">'+icon('bookmark')+'<div class="txt">'+h2({title:s.title||'احفظ البوست',titleSize:s.titleSize})
+       +body({body:s.body||'وارجع له إذا احتجته'})+'<div class="cta"><div><div class="l1">'+(cta.line1||'')+'</div><div class="l2">'+(cta.line2||'')+'</div></div><div class="ph">'+(cta.phone||'')+'</div></div></div></div>';
+     break;
+   default: /* point + share */
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid">'+(s.icon?icon(s.icon):'')+'<div class="txt">'+num(s)+h2(s)+body(s)+pill(s)+'</div></div>';
+  }
+  return '<section class="'+cls+'">'+pat()+inner+foot()+'</section>';
+}
+
+var deckEl=document.getElementById('deck');
+var N=DECK.slides.length;
+deckEl.innerHTML=DECK.slides.map(function(s,i){return build(s,i,N)}).join('');
+
+/* ---- side panel ---- */
+document.getElementById('ttl').innerHTML='كاروسيل <em>'+(META.title||'')+'</em> · '+N+' شرائح · '+CW+'×'+CH;
+document.getElementById('o1').textContent=CW+'×'+CH+' (انستقرام)';
+document.getElementById('o2').textContent=(CW*2)+'×'+(CH*2)+' (عالية)';
+var CAPTION=META.caption||'';
+if(CAPTION){document.getElementById('cap').textContent=CAPTION}else{document.getElementById('capBox').style.display='none'}
+document.getElementById('srcs').innerHTML=(META.sources||[]).map(function(s){return '<li>'+(typeof s==='string'?s:'<a target="_blank" rel="noopener" href="'+s[1]+'">'+s[0]+'</a>')+'</li>'}).join('');
+document.getElementById('notes').textContent=META.notes||'';
+
+/* ---- viewer ---- */
+var slides=[].slice.call(document.querySelectorAll('#deck .slide'));
+var stage=document.getElementById('stage'), wraps=[], cur=0, S=.5;
+slides.forEach(function(sl){var w=document.createElement('div');w.className='sl-wrap';w.appendChild(sl);stage.appendChild(w);wraps.push(w);});
+var dotsEl=document.getElementById('dots');
+slides.forEach(function(_,i){var d=document.createElement('i');d.onclick=function(){go(i)};dotsEl.appendChild(d);});
+var BARE=(location.search.match(/slide=(\d+)/)||[])[1];
+if(BARE){var st=document.createElement('style');st.textContent='.top,.side,.nav,.toast{display:none!important}html,body{margin:0;background:'+C.bg+';overflow:hidden}.main{padding:0;display:block}.stage{box-shadow:none;border-radius:0}';document.head.appendChild(st);}
+function fit(){
+  S=BARE?1:Math.min(.62,(window.innerHeight-170)/CH,(window.innerWidth-44)/CW);
+  stage.style.width=(CW*S)+'px';stage.style.height=(CH*S)+'px';
+  wraps.forEach(function(w){w.style.transform='scale('+S+')'});
+}
+function go(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  wraps.forEach(function(w,k){w.classList.toggle('on',k===cur)});
+  [].forEach.call(dotsEl.children,function(d,k){d.classList.toggle('on',k===cur)});
+  document.getElementById('counter').textContent=slides.length+'/'+(cur+1);
+}
+document.getElementById('next').onclick=function(){go(cur+1)};
+document.getElementById('prev').onclick=function(){go(cur-1)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')go(cur+1);if(e.key==='ArrowRight')go(cur-1)});
+window.addEventListener('resize',fit);
+fit();go(BARE?(+BARE-1):0);
+
+function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(function(){el.classList.remove('show')},2200)}
+document.getElementById('copyCap').onclick=async function(){
+  try{await navigator.clipboard.writeText(CAPTION)}catch(e){var a=document.createElement('textarea');a.value=CAPTION;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
+  toast('تم نسخ الكابشن ✓');
+};
+
+/* ---- export (html2canvas) ---- */
+var FONT=BRAND.font||'Cairo';
+async function fontsReady(){
+  try{
+    await document.fonts.load('900 100px '+FONT);await document.fonts.load('800 44px '+FONT);
+    await document.fonts.load('700 44px '+FONT);await document.fonts.load('400 50px '+FONT);
+    await document.fonts.ready;await document.fonts.ready;
+  }catch(e){}
+}
+async function renderSlide(i,scale){
+  await fontsReady();
+  var tmp=document.createElement('div');
+  tmp.style.cssText='position:fixed;left:-30000px;top:0;width:'+CW+'px;height:'+CH+'px';
+  var clone=slides[i].cloneNode(true);
+  tmp.appendChild(clone);document.body.appendChild(tmp);
+  var c=await html2canvas(clone,{scale:scale,width:CW,height:CH,backgroundColor:C.bg,logging:false,useCORS:true});
+  tmp.remove();return c;
+}
+function blobOf(c){return new Promise(function(r){c.toBlob(r,'image/png')})}
+function dl(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000)}
+var sc=function(){return parseFloat(document.getElementById('scale').value)};
+var NAME=(META.fileName||META.title||'carousel').replace(/\s+/g,'-')+'-';
+function busy(b){['saveOne','saveSeq','saveZip'].forEach(function(id){document.getElementById(id).disabled=b})}
+document.getElementById('saveOne').onclick=async function(){
+  busy(true);try{var c=await renderSlide(cur,sc());dl(await blobOf(c),NAME+(cur+1)+'.png');toast('تم حفظ الشريحة '+(cur+1)+' ✓')}catch(e){toast('تعذّر الحفظ: '+e.message)}busy(false)};
+document.getElementById('saveSeq').onclick=async function(){
+  busy(true);try{for(var i=0;i<slides.length;i++){var c=await renderSlide(i,sc());dl(await blobOf(c),NAME+(i+1)+'.png');toast('جاري الحفظ '+(i+1)+'/'+slides.length);await new Promise(function(r){setTimeout(r,500)})}toast('تم حفظ كل الشرائح ✓')}catch(e){toast('تعذّر الحفظ: '+e.message)}busy(false)};
+document.getElementById('saveZip').onclick=async function(){
+  busy(true);try{var z=new JSZip();for(var i=0;i<slides.length;i++){toast('تجهيز '+(i+1)+'/'+slides.length);var c=await renderSlide(i,sc());z.file(NAME+(i+1)+'.png',await blobOf(c))}
+    dl(await z.generateAsync({type:'blob'}),NAME+'الكاروسيل.zip');toast('تم تحميل الـ ZIP ✓')}catch(e){toast('تعذّر التحميل: '+e.message)}busy(false)};
+</script>
+</body>
+</html>

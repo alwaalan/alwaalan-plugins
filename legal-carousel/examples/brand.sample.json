@@ -1,0 +1,36 @@
+{
+  "name": "المحامي فلان الفلاني",
+  "handle": "@your_handle",
+  "niche": "توعية قانونية",
+  "country": "الكويت",
+  "font": "Cairo",
+  "size": { "w": 1080, "h": 1440 },
+  "colors": {
+    "bg": "#0E1B2E",
+    "bgAlt": "#12233A",
+    "card": "#1B3050",
+    "cardHot": "#26405F",
+    "accent": "#C9A55C",
+    "text": "#F3EFE6",
+    "muted": "#8FA0B8"
+  },
+  "logo": "logo.png",
+  "cta": { "phone": "00000000", "line1": "للاستشارات القانونية", "line2": "تابعنا لشرح القوانين" },
+  "dashboard": { "titleBefore": "منصة أخبار", "titleEm": "القانون الكويتي" },
+  "style": {
+    "dialect": "kuwaiti",
+    "tone": "كويتية قريبة ومباشرة، جريئة مع دقة قانونية",
+    "punctuation": "question-only",
+    "wordMap": { "وش": "شنو", "مين": "منو" },
+    "tagNumbersOnly": true,
+    "allowedTagWords": ["شاركها", "احفظها"],
+    "coverTag": "#توعية_قانونية",
+    "dateSentence": "يسري القانون في {التاريخ}",
+    "shareLine": "أرسلها له خله يعرف شاللي تغيّر",
+    "platforms": ["instagram"]
+  },
+  "sources": {
+    "scopes": ["تشريعات وقرارات الكويت", "أحكام وقضايا مشهورة", "أخبار الجهات الحكومية"],
+    "legalReferenceSkill": "legal-reference"
+  }
+}

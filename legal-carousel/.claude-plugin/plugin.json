@@ -1,0 +1,17 @@
+{
+  "name": "legal-carousel",
+  "version": "0.1.0",
+  "description": "مصنع كاروسيل التوعية القانونية: يقرأ هوية صاحب الحساب من أعماله السابقة، يبني داشبورد أخبار (تحديد وحذف وقيد الإنجاز)، يحوّل الخبر لكاروسيل 3:4 بهويته وقواعد أسلوبه مع فحص آلي، ويصدّر الشرائح PNG عالية الدقة.",
+  "author": {
+    "name": "Abdulaziz Alwaalan"
+  },
+  "keywords": [
+    "arabic",
+    "legal",
+    "carousel",
+    "instagram",
+    "kuwait",
+    "news-dashboard",
+    "png-export"
+  ]
+}
