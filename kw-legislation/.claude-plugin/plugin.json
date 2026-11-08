@@ -1,0 +1,15 @@
+{
+  "name": "kw-legislation",
+  "version": "0.1.0",
+  "description": "مرجع التشريعات الكويتية: 84 قانوناً ولائحة مفهرسة من تجميع منشور (التعديلات حتى 5/10/2026)، مع بحث بالمادة والكلمات وعرض صورة الصفحة للتحقق.",
+  "author": {
+    "name": "Abdulaziz Alwaalan"
+  },
+  "keywords": [
+    "kuwait",
+    "legislation",
+    "arabic",
+    "legal",
+    "law-reference"
+  ]
+}

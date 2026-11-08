@@ -6,6 +6,11 @@
       "name": "legal-carousel",
       "source": "./legal-carousel",
       "description": "مصنع كاروسيل التوعية القانونية: هوية، داشبورد أخبار، كاروسيل 3:4، تصدير PNG."
+    },
+    {
+      "name": "kw-legislation",
+      "source": "./kw-legislation",
+      "description": "مرجع التشريعات الكويتية (84 قانوناً ولائحة، التعديلات حتى 5/10/2026) مع بحث بالمادة والتحقق بصورة الصفحة."
     }
   ]
 }
