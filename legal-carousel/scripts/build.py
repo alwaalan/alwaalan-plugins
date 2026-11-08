@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """legal-carousel build tool (Python 3, standard library only).
 
-  build.py carousel  --brand brand.json --deck deck.json --out carousel.html
-  build.py dashboard --brand brand.json --news news.json --out news.html [--date "8 نوفمبر 2026"]
+  build.py carousel  [--brand brand.json | --profile name] --deck deck.json --out carousel.html [--size 1080x1920]
+  build.py dashboard [--brand brand.json | --profile name] --news news.json --out news.html [--date "8 نوفمبر 2026"]
+  build.py doctor        (checks Python, Chrome/Edge, Pillow, PyMuPDF, the bundled font, kw-legislation)
 
 carousel: fills templates/carousel.template.html with the brand + slides, then lints the
           slides against the brand's style rules. Exit code 0 even with warnings (read them!).
@@ -57,6 +58,33 @@ def logo_b64(brand, brand_path):
 
 def font_query(brand):
     return urllib.parse.quote_plus(brand.get("font", "Cairo"))
+
+
+FONT_RANGES = {
+    "arabic": "U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC",
+    "latin-ext": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+    "latin": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+}
+
+
+def font_head(brand):
+    """Embed the bundled Cairo font (offline, deterministic). Other fonts load from Google Fonts."""
+    name = brand.get("font", "Cairo")
+    fdir = ROOT / "fonts"
+    if name == "Cairo" and (fdir / "Cairo-arabic.woff2").exists():
+        faces = []
+        for sub in ("arabic", "latin-ext", "latin"):
+            p = fdir / ("Cairo-%s.woff2" % sub)
+            if p.exists():
+                b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+                faces.append("@font-face{font-family:'Cairo';font-style:normal;font-weight:200 1000;font-display:block;"
+                             "src:url(data:font/woff2;base64,%s) format('woff2');unicode-range:%s}" % (b64, FONT_RANGES[sub]))
+        if faces:
+            return "<style>" + "".join(faces) + "</style>"
+    return ('<link rel="preconnect" href="https://fonts.googleapis.com">'
+            '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+            '<link href="https://fonts.googleapis.com/css2?family=%s:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">'
+            % font_query(brand))
 
 
 # ---------- lint ----------
@@ -151,18 +179,35 @@ def lint(deck, brand):
 
 # ---------- commands ----------
 
+def brand_path(a):
+    """--brand file, or --profile name (.legal-carousel/brands/<name>.json), or .legal-carousel/brand.json."""
+    if getattr(a, "brand", None):
+        return Path(a.brand)
+    base = Path(getattr(a, "project", None) or ".") / ".legal-carousel"
+    if getattr(a, "profile", None):
+        return base / "brands" / (a.profile + ".json")
+    return base / "brand.json"
+
+
 def cmd_carousel(a):
-    brand = load_json(a.brand)
+    bp = brand_path(a)
+    brand = load_json(bp)
     deck = load_json(a.deck)
     meta = deck.setdefault("meta", {})
     slides = deck.get("slides", [])
+    if getattr(a, "size", None):
+        try:
+            w, h = (int(x) for x in a.size.lower().split("x"))
+        except ValueError:
+            die("--size لازم يكون مثل 1080x1920")
+        brand["size"] = {"w": w, "h": h}
     size = brand.get("size", {"w": 1080, "h": 1440})
     tpl = (TPL / "carousel.template.html").read_text(encoding="utf-8")
     title = meta.get("title", "carousel")
     html = (tpl.replace("__BRAND_JSON__", embed_json(brand))
                .replace("__DECK_JSON__", embed_json(deck))
-               .replace("__LOGO__", logo_b64(brand, a.brand))
-               .replace("__FONT_Q__", font_query(brand))
+               .replace("__LOGO__", logo_b64(brand, bp))
+               .replace("__FONT_HEAD__", font_head(brand))
                .replace("__TITLE__", "كاروسيل " + title)
                .replace("__COUNT__", str(len(slides)))
                .replace("__SIZE__", "%dx%d" % (size["w"], size["h"])))
@@ -180,7 +225,8 @@ def cmd_carousel(a):
 
 
 def cmd_dashboard(a):
-    brand = load_json(a.brand)
+    bp = brand_path(a)
+    brand = load_json(bp)
     news = load_json(a.news)
     if isinstance(news, dict):
         news = news.get("items", [])
@@ -199,8 +245,8 @@ def cmd_dashboard(a):
     tpl = (TPL / "dashboard.template.html").read_text(encoding="utf-8")
     html = (tpl.replace("__BRAND_JSON__", embed_json(brand))
                .replace("__NEWS_JSON__", embed_json(news))
-               .replace("__LOGO__", logo_b64(brand, a.brand))
-               .replace("__FONT_Q__", font_query(brand))
+               .replace("__LOGO__", logo_b64(brand, bp))
+               .replace("__FONT_HEAD__", font_head(brand))
                .replace("__DATE__", a.date or ""))
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -208,20 +254,72 @@ def cmd_dashboard(a):
     print("تم بناء الداشبورد: %s (%d خبر)" % (out, len(news)))
 
 
+def cmd_doctor(a):
+    """Check the machine: Python, browser, Pillow, PyMuPDF, bundled font, legislation plugin."""
+    import glob
+    import importlib
+    import os
+    import shutil
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from export_slides import find_browser
+    rows = []
+
+    def row(ok, name, fix=""):
+        rows.append((ok, name, fix))
+
+    row(sys.version_info >= (3, 8), "Python %d.%d" % sys.version_info[:2], "ثبّت Python 3.8 أو أحدث")
+    b = find_browser()
+    row(bool(b), "Chrome أو Edge" + (": " + b if b else ""), "ثبّت Chrome أو Edge (ضروري لتصدير PNG وفحص التصميم) أو حدد CHROME_PATH")
+    try:
+        importlib.import_module("PIL")
+        row(True, "Pillow (لتجهيز الشعار)")
+    except ImportError:
+        row(False, "Pillow (لتجهيز الشعار فقط)", "python -m pip install pillow")
+    try:
+        try:
+            importlib.import_module("pymupdf")
+        except ImportError:
+            importlib.import_module("fitz")
+        row(True, "PyMuPDF (لعرض صفحات التشريعات)")
+    except ImportError:
+        row(False, "PyMuPDF (لعرض صفحات التشريعات، اختياري)", "python -m pip install pymupdf")
+    fonts = ROOT / "fonts" / "Cairo-arabic.woff2"
+    row(fonts.exists(), "خط Cairo المرفق (يشتغل بدون إنترنت)", "ملفات fonts ناقصة: أعد تنصيب الإضافة")
+    home = Path(os.path.expanduser("~"))
+    cands = glob.glob(str(home / ".claude" / "plugins" / "cache" / "*" / "kw-legislation" / "*" / "data" / "index.json"))
+    sib = ROOT.parent / "kw-legislation" / "data" / "index.json"
+    found = cands[-1] if cands else (str(sib) if sib.exists() else "")
+    row(bool(found), "إضافة kw-legislation (مرجع التشريعات)" + (": " + found if found else ""),
+        "اختيارية: بدونها ما تتحقق الإضافة من أرقام المواد")
+    row(bool(shutil.which("pdftotext")), "pdftotext (فقط لو تبي تحدّث ملف التشريعات)", "اختياري: ثبّت poppler")
+    bad = 0
+    for ok, name, fix in rows:
+        print(("✓ " if ok else "✗ ") + name + ("" if ok or not fix else "\n    الحل: " + fix))
+        if not ok and "اختياري" not in name and "فقط" not in name:
+            bad += 1
+    print("\nجاهز" if not bad else "\nفيه %d نقص يعطّل شي أساسي" % bad)
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("carousel")
-    c.add_argument("--brand", required=True)
+    c.add_argument("--brand")
+    c.add_argument("--profile")
+    c.add_argument("--project")
     c.add_argument("--deck", required=True)
     c.add_argument("--out", required=True)
+    c.add_argument("--size", help="مثل 1080x1920 لتيك توك")
     c.set_defaults(fn=cmd_carousel)
     d = sub.add_parser("dashboard")
-    d.add_argument("--brand", required=True)
+    d.add_argument("--brand")
+    d.add_argument("--profile")
+    d.add_argument("--project")
     d.add_argument("--news", required=True)
     d.add_argument("--out", required=True)
     d.add_argument("--date", default="")
     d.set_defaults(fn=cmd_dashboard)
+    k = sub.add_parser("doctor")
+    k.set_defaults(fn=cmd_doctor)
     a = ap.parse_args()
     a.fn(a)
 

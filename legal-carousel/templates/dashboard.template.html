@@ -4,14 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>منصة الأخبار</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=__FONT_Q__:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+__FONT_HEAD__
 <style>
 :root{
   --bg:#0E1B2E; --bg2:#12233a; --card:#1B3050; --card2:#162743;
   --gold:#C9A55C; --gold-soft:rgba(var(--rgb),.14); --line:rgba(var(--rgb),.38);
-  --cream:#F3EFE6; --muted:#8FA0B8; --rgb:201,165,92; --font:'Cairo'; --ok:#7FCB9A; --warn:#E8B45A; --red:#E58A8A;
+  --cream:#F3EFE6; --muted:#8FA0B8; --ok:#7FCB9A; --warn:#E8B45A; --red:#E58A8A; --rgb:201,165,92; --font:'Cairo';
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -22,10 +20,7 @@ body{
 }
 button{font-family:inherit}
 .frame{max-width:1240px;margin:0 auto;padding:28px 24px 120px}
-header{
-  display:flex;align-items:center;gap:22px;padding:22px 26px;border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(180deg,var(--bg2),var(--bg));margin-bottom:22px;flex-wrap:wrap;
-}
+header{display:flex;align-items:center;gap:18px;padding:22px 26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--bg2),var(--bg));margin-bottom:22px;flex-wrap:wrap}
 .logo{width:46px;height:92px;flex:none;background:url(data:image/png;base64,__LOGO__) center/contain no-repeat}
 .hd-txt{flex:1;min-width:200px}
 .eyebrow{color:var(--muted);font-size:14px;font-weight:600}
@@ -33,42 +28,33 @@ h1{font-size:30px;font-weight:900;line-height:1.3}
 h1 em{font-style:normal;color:var(--gold)}
 .hd-meta{display:flex;flex-direction:column;align-items:flex-start;gap:2px;color:var(--muted);font-size:13px}
 .hd-meta b{color:var(--gold);font-size:15px}
-.refresh{
-  border:1px solid var(--gold);background:var(--gold);color:var(--bg);border-radius:12px;padding:11px 18px;
-  font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s
-}
+.hd-btns{display:flex;gap:8px;flex-wrap:wrap}
+.refresh{border:1px solid var(--gold);background:var(--gold);color:var(--bg);border-radius:12px;padding:11px 18px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s}
 .refresh:hover{filter:brightness(1.08)}
 .refresh .bd{background:var(--bg);color:var(--gold);border-radius:999px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;padding:0 7px}
-
-/* progress zone */
 .pz{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(var(--rgb),.08),transparent);padding:16px 18px;margin-bottom:22px}
+.pz-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
 .pz-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.pz-h h2{font-size:18px;font-weight:800;color:var(--gold)}
+.pz-h h2{font-size:17px;font-weight:800;color:var(--gold)}
 .pz-h .n{background:var(--gold);color:var(--bg);border-radius:999px;font-size:13px;font-weight:800;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;padding:0 7px}
 .pz-empty{color:var(--muted);font-size:14px;padding:6px 2px}
 .pz-list{display:flex;flex-direction:column;gap:10px}
 .pc{background:var(--card);border:1px solid rgba(var(--rgb),.25);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.pc .t{flex:1;min-width:220px;font-weight:700;font-size:16px;cursor:pointer;line-height:1.5}
+.pc .t{flex:1;min-width:200px;font-weight:700;font-size:15.5px;cursor:pointer;line-height:1.5}
 .pc .t small{display:block;color:var(--muted);font-weight:400;font-size:12.5px}
 .mini{display:flex;gap:6px;flex-wrap:wrap}
-
-.btn-s{border:1px solid rgba(143,160,184,.35);background:transparent;color:var(--cream);border-radius:9px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.btn-s{border:1px solid rgba(143,160,184,.35);background:transparent;color:var(--cream);border-radius:9px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;text-decoration:none;display:inline-block}
 .btn-s:hover{border-color:var(--gold);color:var(--gold)}
 .btn-s.gold{background:var(--gold);border-color:var(--gold);color:var(--bg)}
 .btn-s.gold:hover{filter:brightness(1.08);color:var(--bg)}
 .btn-s.red:hover{border-color:var(--red);color:var(--red)}
-
-/* tabs + toolbar */
 .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.tab{border:1px solid rgba(143,160,184,.3);background:transparent;color:var(--muted);border-radius:12px;padding:8px 18px;font-size:15px;font-weight:700;cursor:pointer}
+.tab{border:1px solid rgba(143,160,184,.3);background:transparent;color:var(--muted);border-radius:12px;padding:8px 16px;font-size:15px;font-weight:700;cursor:pointer}
 .tab.on{background:var(--card);border-color:var(--gold);color:var(--gold)}
 .tab span{margin-inline-start:6px;opacity:.8}
 .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
 .search{flex:1 1 260px}
-.search input{
-  width:100%;background:var(--card2);border:1px solid rgba(143,160,184,.25);color:var(--cream);
-  border-radius:12px;padding:11px 16px;font:inherit;font-size:15px;outline:none;
-}
+.search input{width:100%;background:var(--card2);border:1px solid rgba(143,160,184,.25);color:var(--cream);border-radius:12px;padding:11px 16px;font:inherit;font-size:15px;outline:none}
 .search input:focus{border-color:var(--gold)}
 .search input::placeholder{color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -77,12 +63,8 @@ h1 em{font-style:normal;color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:var(--bg)}
 .notice{border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin-bottom:22px;color:var(--muted);font-size:14px;display:flex;gap:10px;align-items:flex-start}
 .notice b{color:var(--gold)}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
-.card{
-  position:relative;background:var(--card);border:1px solid rgba(var(--rgb),.2);border-radius:16px;padding:20px 20px 14px;
-  cursor:pointer;transition:.18s;display:flex;flex-direction:column;gap:10px;text-align:right;color:inherit;font:inherit
-}
+.card{position:relative;background:var(--card);border:1px solid rgba(var(--rgb),.2);border-radius:16px;padding:20px 20px 14px;cursor:pointer;transition:.18s;display:flex;flex-direction:column;gap:10px;text-align:right;color:inherit;font:inherit}
 .card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
 .card.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(var(--rgb),.5)}
 .card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-left:36px}
@@ -100,18 +82,20 @@ h1 em{font-style:normal;color:var(--gold)}
 .dots i.f{background:var(--gold)}
 .ver{font-size:12px;font-weight:700}
 .ver.ok{color:var(--ok)} .ver.warn{color:var(--warn)}
-.acts{display:flex;gap:6px;margin-top:2px}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.bdg{font-size:12px;font-weight:700;border-radius:8px;padding:2px 10px;border:1px solid transparent}
+.bdg.ok{color:var(--ok);border-color:rgba(127,203,154,.4)}
+.bdg.warn{color:var(--warn);border-color:rgba(232,180,90,.4)}
+.bdg.rep{color:var(--red);border-color:rgba(229,138,138,.45)}
+.bdg.ev{color:var(--cream);border-color:rgba(143,160,184,.4)}
+.acts{display:flex;gap:6px;margin-top:2px;flex-wrap:wrap}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0}
-
-/* bulk bar */
 .bulk{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--card);border:1px solid var(--gold);border-radius:16px;padding:12px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;z-index:30;transition:.25s;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100% - 24px)}
 .bulk.on{transform:translateX(-50%)}
 .bulk .c{font-weight:800;color:var(--gold);margin-inline-end:6px}
-
-/* drawer */
 .overlay{position:fixed;inset:0;background:rgba(5,10,18,.72);display:none;z-index:20;backdrop-filter:blur(3px)}
 .overlay.open{display:block}
-.drawer{position:fixed;top:0;bottom:0;left:0;width:min(640px,100%);background:var(--bg);border-right:1px solid var(--line);z-index:21;transform:translateX(-102%);transition:transform .25s ease;overflow-y:auto;padding:70px 28px 130px}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(640px,100%);background:var(--bg);border-right:1px solid var(--line);z-index:21;transform:translateX(-102%);transition:transform .25s ease;overflow-y:auto;padding:70px 28px 150px}
 .drawer.open{transform:none}
 .close{position:absolute;top:16px;right:20px;background:none;border:1px solid rgba(143,160,184,.3);color:var(--muted);width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
 .close:hover{color:var(--gold);border-color:var(--gold)}
@@ -126,22 +110,24 @@ h1 em{font-style:normal;color:var(--gold)}
 .hook span{color:var(--gold)}
 .src a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--line);font-size:14.5px}
 .src li{list-style:none;margin-bottom:6px}
+.lg{background:var(--card2);border:1px solid rgba(143,160,184,.25);border-radius:12px;padding:12px 14px;font-size:14.5px;color:#d8dfeb}
+.lg div{margin-bottom:4px}
+.lg b{color:var(--cream)}
 .drawer-bar{position:fixed;bottom:0;left:0;width:min(640px,100%);z-index:22;background:linear-gradient(0deg,var(--bg) 70%,transparent);padding:22px 28px;display:none;gap:10px;flex-wrap:wrap}
 .drawer-bar.open{display:flex}
-.btn{flex:1;min-width:150px;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:800;cursor:pointer;background:var(--gold);color:var(--bg);transition:.15s}
+.btn{flex:1;min-width:140px;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:800;cursor:pointer;background:var(--gold);color:var(--bg);transition:.15s}
 .btn:hover{filter:brightness(1.08)}
 .btn.ghost{flex:0 0 auto;min-width:0;background:transparent;border:1px solid var(--line);color:var(--gold);padding:14px 18px}
 .btn.ghost.red{color:var(--red);border-color:rgba(229,138,138,.5)}
-
-/* modal */
 .modal{position:fixed;inset:0;background:rgba(5,10,18,.78);display:none;z-index:40;align-items:center;justify-content:center;padding:18px}
 .modal.open{display:flex}
 .mbox{background:var(--bg);border:1px solid var(--gold);border-radius:18px;max-width:640px;width:100%;max-height:88vh;overflow:auto;padding:24px}
 .mbox h3{color:var(--gold);font-size:20px;margin-bottom:6px}
 .mbox p{color:var(--muted);font-size:14px;margin-bottom:12px}
+.mbox label{display:block;font-size:13.5px;color:var(--muted);margin:10px 0 4px}
+.mbox input[type=text],.mbox input[type=date]{width:100%;background:var(--card2);color:var(--cream);border:1px solid rgba(143,160,184,.3);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
 .mbox textarea{width:100%;height:260px;background:var(--card2);color:var(--cream);border:1px solid rgba(143,160,184,.3);border-radius:12px;padding:12px;font:inherit;font-size:14px;line-height:1.8;resize:vertical;direction:rtl}
 .mbtns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gold);color:var(--bg);padding:11px 22px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:60;display:flex;gap:12px;align-items:center}
 .toast.show{opacity:1;transform:translateX(-50%);pointer-events:auto}
 .toast button{background:var(--bg);color:var(--gold);border:none;border-radius:999px;padding:4px 14px;font-weight:800;cursor:pointer;font-size:13px}
@@ -154,32 +140,32 @@ footer b{color:var(--gold)}
 <div class="frame">
   <header>
     <div class="logo" role="img" aria-label="الشعار"></div>
-    <div class="hd-txt">
-      <div class="eyebrow" id="eyebrow"></div>
-      <h1 id="h1"></h1>
-    </div>
+    <div class="hd-txt"><div class="eyebrow" id="eyebrow"></div><h1 id="h1"></h1></div>
     <div class="hd-meta"><span>آخر تحديث</span><b id="upd"></b><span id="cnt"></span></div>
-    <button class="refresh" id="refreshBtn">🔄 جيب أخبار جديدة <span class="bd" id="rbd">0</span></button>
+    <div class="hd-btns">
+      <button class="refresh" id="refreshBtn">🔄 جيب أخبار جديدة <span class="bd" id="rbd">0</span></button>
+      <button class="btn-s" id="expBtn">⬇ تصدير الحالة</button>
+      <button class="btn-s" id="impBtn">⬆ استيراد الحالة</button>
+      <input type="file" id="impFile" accept="application/json,.json" style="display:none">
+    </div>
   </header>
 
   <section class="pz" id="pz">
-    <div class="pz-h"><h2>⏳ قيد الإنجاز</h2><span class="n" id="pn">0</span></div>
-    <div id="pzBody"></div>
+    <div class="pz-cols">
+      <div><div class="pz-h"><h2>⏳ قيد الإنجاز</h2><span class="n" id="pn">0</span></div><div id="pzProg"></div></div>
+      <div><div class="pz-h"><h2>✅ جاهز للنشر</h2><span class="n" id="rn">0</span></div><div id="pzReady"></div></div>
+    </div>
   </section>
 
   <div class="tabs" id="tabs"></div>
-
   <div class="toolbar">
     <div class="search"><input id="q" type="search" placeholder="ابحث في الأخبار… (مثال: مرور، عمل، تحكيم)"></div>
     <div class="chips" id="cats"></div>
     <button class="btn-s" id="selAll">تحديد الكل</button>
   </div>
-
-  <div class="notice"><span>⚠️</span><div><b>قبل ما تنشر:</b> الأخبار مجمّعة من مصادر كويتية منشورة، وكل بطاقة عليها حالة التحقق. أرقام المواد والنصوص النهائية لازم تتأكد من الجريدة الرسمية «الكويت اليوم»، وأنا أراجع المواد عند بناء الكاروسيل من مرجع التشريعات الكويتية.</div></div>
-
+  <div class="notice"><span>⚠️</span><div><b>قبل ما تنشر:</b> كل بطاقة عليها حالة التحقق وحالة المطابقة مع مرجع التشريعات (لو متوفر). أرقام المواد والنصوص النهائية لازم تتأكد من الجريدة الرسمية «الكويت اليوم».</div></div>
   <div class="grid" id="grid"></div>
-
-  <footer>اضغط على الخبر ← <b>انسخه</b> ← الصقه في المحادثة وأبني لك الكاروسيل · حالة الأخبار تنحفظ في متصفحك</footer>
+  <footer>اضغط على الخبر ← <b>انسخه</b> ← الصقه في المحادثة · الحالة تنحفظ في متصفحك، وتقدر تنقلها بـ «تصدير الحالة»</footer>
 </div>
 
 <div class="bulk" id="bulk"></div>
@@ -187,15 +173,21 @@ footer b{color:var(--gold)}
 <aside class="drawer" id="dr" aria-hidden="true"></aside>
 <div class="drawer-bar" id="bar">
   <button class="btn" id="copyBtn">📋 انسخ الخبر للكاروسيل</button>
-  <button class="btn ghost" id="progBtn">⏳ قيد الإنجاز</button>
+  <button class="btn ghost" id="fwdBtn">⏳ قيد الإنجاز</button>
+  <button class="btn ghost" id="backBtn">↩ رجوع</button>
   <button class="btn ghost red" id="delBtn">🗑 حذف</button>
   <button class="btn ghost" id="closeBtn">إغلاق</button>
 </div>
 <div class="modal" id="modal"><div class="mbox">
-  <h3>🔄 طلب أخبار جديدة</h3>
-  <p id="mnote"></p>
-  <textarea id="mtext" readonly></textarea>
+  <h3>🔄 طلب أخبار جديدة</h3><p id="mnote"></p><textarea id="mtext" readonly></textarea>
   <div class="mbtns"><button class="btn" id="mcopy" style="flex:1">📋 انسخ الطلب</button><button class="btn ghost" id="mclose">إغلاق</button></div>
+</div></div>
+<div class="modal" id="smodal"><div class="mbox">
+  <h3 id="stitle"></h3><p id="snote"></p>
+  <label for="scar">مسار الكاروسيل (اختياري، نسبي لملف الداشبورد)</label>
+  <input type="text" id="scar" placeholder="قانون الإعلام/carousel-قانون-الإعلام.html" dir="ltr">
+  <div id="sdwrap"><label for="sdate">تاريخ النشر</label><input type="date" id="sdate"></div>
+  <div class="mbtns"><button class="btn" id="ssave" style="flex:1">حفظ</button><button class="btn ghost" id="scancel">إلغاء</button></div>
 </div></div>
 <div class="toast" id="toast"><span id="tmsg"></span><button id="tact" style="display:none"></button></div>
 
@@ -204,193 +196,257 @@ const UPDATED = "__DATE__";
 const NEWS = __NEWS_JSON__;
 const BRAND = __BRAND_JSON__;
 
-
 (function(){var c=BRAND.colors,s=document.documentElement.style;
 function rgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)].join(',')}
 s.setProperty('--bg',c.bg);s.setProperty('--bg2',c.bgAlt||c.bg);s.setProperty('--card',c.card);s.setProperty('--gold',c.accent);
 s.setProperty('--cream',c.text);s.setProperty('--muted',c.muted);s.setProperty('--rgb',rgb(c.accent));s.setProperty('--font',"'"+(BRAND.font||'Cairo')+"'");
 var d=BRAND.dashboard||{};document.getElementById('h1').innerHTML=(d.titleBefore||'منصة الأخبار')+' <em>'+(d.titleEm||BRAND.niche||'')+'</em>';
 document.getElementById('eyebrow').textContent=(BRAND.niche||'')+' · '+BRAND.handle;document.title='منصة الأخبار · '+BRAND.name;})();
+
 const $=s=>document.querySelector(s);
-const KEY="news-state-v1-"+BRAND.handle;
-let state={status:{},snap:{}};
-try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.status)state=s}catch(e){}
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY="news-state-v2-"+BRAND.handle, OLDKEY="news-state-v1-"+BRAND.handle;
+const STAGES={new:'فكرة',prog:'قيد الإنجاز',ready:'جاهز',pub:'منشور',del:'محذوف',gone:'حذف نهائي'};
+const NEXT={new:'prog',prog:'ready',ready:'pub'}, PREV={prog:'new',ready:'prog',pub:'ready'};
+let state={v:2,status:{},snap:{},meta:{}};
+function migrate(s){if(!s)return;['status','snap','meta'].forEach(k=>{if(!s[k])s[k]={}});Object.keys(s.status).forEach(id=>{if(s.status[id]==='done')s.status[id]='pub'});s.v=2;return s}
+try{let s=JSON.parse(localStorage.getItem(KEY)||"null");if(!s){const o=JSON.parse(localStorage.getItem(OLDKEY)||"null");if(o&&o.status)s=o}if(s&&s.status)state=migrate(s)}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
 
-let tab="new",cat="الكل",qs="",cur=null;
+let tab="new",cat="الكل",qs="",cur=null,pending=null;
 const sel=new Set();
-
-function find(id){return NEWS.find(n=>n.id===id)||state.snap[id]||null}
-function stOf(id){return state.status[id]||"new"}
-function listFor(st){
-  if(st==="new")return NEWS.filter(n=>stOf(n.id)==="new");
-  return Object.keys(state.status).filter(id=>state.status[id]===st).map(find).filter(Boolean);
+const find=id=>NEWS.find(n=>n.id===id)||state.snap[id]||null;
+const stOf=id=>state.status[id]||"new";
+const kindOf=n=>n.kind==="evergreen"?"evergreen":"news";
+function listFor(t){
+  if(t==="new")return NEWS.filter(n=>kindOf(n)==="news"&&stOf(n.id)==="new");
+  if(t==="evergreen")return NEWS.filter(n=>kindOf(n)==="evergreen"&&stOf(n.id)==="new");
+  return Object.keys(state.status).filter(id=>state.status[id]===t).map(find).filter(Boolean);
 }
-function counts(){return{new:listFor("new").length,prog:listFor("prog").length,done:listFor("done").length,del:listFor("del").length,gone:Object.values(state.status).filter(v=>v==="gone").length}}
-function setStatus(ids,st,msg){
-  const prev={};
+function counts(){const c={};["new","evergreen","prog","ready","pub","del"].forEach(t=>c[t]=listFor(t).length);c.gone=Object.values(state.status).filter(v=>v==="gone").length;return c}
+const meta=id=>state.meta[id]||{};
+const carOf=n=>meta(n.id).carousel||n.carousel||"";
+function repeatWarn(n){
+  if(!n.topic)return"";
+  for(const id of Object.keys(state.status)){
+    if(id===n.id||state.status[id]!=="pub")continue;
+    const o=find(id);if(o&&o.topic===n.topic)return meta(id).pubAt||"سابقاً";
+  }
+  return"";
+}
+function legisBadge(n){
+  const L=n.legis;if(!L||L.verdict==="none")return"";
+  const d=(L.decrees||[]).find(x=>x.ref===L.primary)||(L.decrees||[])[0];
+  const pg=d&&d.laws&&d.laws[0]?d.laws[0].pdf_page:"";
+  if(L.verdict==="ok")return`<span class="bdg ok">● مطابق للمرجع ص ${pg}</span>`;
+  if(L.verdict==="partial")return`<span class="bdg warn">▲ مذكور بالمرجع ص ${pg}</span>`;
+  return`<span class="bdg warn">▲ خارج المرجع</span>`;
+}
+function setStatus(ids,st,msg,extra){
+  const prev={},pm={};
   ids.forEach(id=>{
-    prev[id]=state.status[id];
+    prev[id]=state.status[id];pm[id]=state.meta[id];
     const it=find(id);
-    if(st==="new"){delete state.status[id]}else{state.status[id]=st;if(it)state.snap[id]=it}
+    if(st==="new")delete state.status[id];else{state.status[id]=st;if(it)state.snap[id]=it}
+    if(extra){state.meta[id]=Object.assign({},state.meta[id],extra)}
   });
   save();sel.clear();render();
-  toast(msg||"تم",ids.length?"تراجع":null,()=>{ids.forEach(id=>{if(prev[id])state.status[id]=prev[id];else delete state.status[id]});save();render()});
+  toast(msg||"تم",ids.length?"تراجع":null,()=>{ids.forEach(id=>{if(prev[id])state.status[id]=prev[id];else delete state.status[id];if(pm[id])state.meta[id]=pm[id];else delete state.meta[id]});save();render()});
 }
 function visible(list){return list.filter(n=>(cat==="الكل"||n.cat===cat)&&(!qs||(n.title+n.sum+n.cat).includes(qs))).sort((a,b)=>b.fit-a.fit)}
 
 function renderHeader(){
-  $("#upd").textContent=UPDATED;
-  const c=counts();$("#cnt").textContent=c.new+" خبر جديد";
-  $("#rbd").textContent=c.done+c.del+c.gone;
+  $("#upd").textContent=UPDATED;const c=counts();$("#cnt").textContent=c.new+" خبر جديد";$("#rbd").textContent=c.pub+c.del+c.gone;
 }
-function renderProg(){
-  const l=listFor("prog");$("#pn").textContent=l.length;
-  $("#pzBody").innerHTML=l.length?`<div class="pz-list">${l.map(n=>`
-   <div class="pc" data-id="${n.id}">
-     <div class="t" data-open="${n.id}">${n.title}<small>${n.cat} · ${n.date}</small></div>
-     <div class="mini">
-       <button class="btn-s" data-copy="${n.id}">📋 نسخ</button>
-       <button class="btn-s gold" data-act="done" data-id="${n.id}">✓ تم الإنجاز</button>
-       <button class="btn-s" data-act="new" data-id="${n.id}">↩ رجّعه</button>
-       <button class="btn-s red" data-act="del" data-id="${n.id}">🗑 حذف</button>
-     </div></div>`).join("")}</div>`
-   :`<div class="pz-empty">ما فيه أخبار هنا. اضغط «⏳ قيد الإنجاز» على أي بطاقة أو حدّد أكثر من خبر وانقلهم.</div>`;
+function pcard(n,t){
+  const car=carOf(n),m=meta(n.id);
+  const open=car?`<a class="btn-s" href="${esc(car)}" target="_blank" rel="noopener">فتح الكاروسيل</a>`:"";
+  let btns="";
+  if(t==="prog")btns=`<button class="btn-s" data-copy="${esc(n.id)}">📋 نسخ</button><button class="btn-s gold" data-act="ready" data-id="${esc(n.id)}">✓ جاهز</button><button class="btn-s" data-act="new" data-id="${esc(n.id)}">↩</button><button class="btn-s red" data-act="del" data-id="${esc(n.id)}">🗑</button>`;
+  else btns=`${open}<button class="btn-s gold" data-act="pub" data-id="${esc(n.id)}">📣 منشور</button><button class="btn-s" data-act="prog" data-id="${esc(n.id)}">↩ قيد الإنجاز</button>`;
+  return`<div class="pc"><div class="t" data-open="${esc(n.id)}">${esc(n.title)}<small>${esc(n.cat)} · ${esc(n.date)}${m.pubAt?" · نُشر "+esc(m.pubAt):""}</small></div><div class="mini">${btns}</div></div>`;
+}
+function renderPZ(){
+  const p=listFor("prog"),r=listFor("ready");$("#pn").textContent=p.length;$("#rn").textContent=r.length;
+  $("#pzProg").innerHTML=p.length?`<div class="pz-list">${p.map(n=>pcard(n,"prog")).join("")}</div>`:`<div class="pz-empty">اضغط «⏳ قيد الإنجاز» على أي بطاقة.</div>`;
+  $("#pzReady").innerHTML=r.length?`<div class="pz-list">${r.map(n=>pcard(n,"ready")).join("")}</div>`:`<div class="pz-empty">الكاروسيلات المعتمدة تجي هنا قبل النشر.</div>`;
 }
 function renderTabs(){
   const c=counts();
-  const T=[["new","الأخبار الجديدة",c.new],["done","المنجزة",c.done],["del","المحذوفة",c.del]];
+  const T=[["new","الأخبار",c.new],["evergreen","مواضيع دائمة",c.evergreen],["prog","قيد الإنجاز",c.prog],["ready","جاهز",c.ready],["pub","منشور",c.pub],["del","المحذوفة",c.del]];
   $("#tabs").innerHTML=T.map(t=>`<button class="tab ${tab===t[0]?'on':''}" data-t="${t[0]}">${t[1]}<span>${t[2]}</span></button>`).join("");
 }
 function renderCats(){
-  const base=listFor(tab);
-  const cats=["الكل",...new Set(base.map(n=>n.cat))];
-  if(!cats.includes(cat))cat="الكل";
-  $("#cats").innerHTML=cats.map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${c}">${c}</button>`).join("");
+  const base=listFor(tab),cs=["الكل",...new Set(base.map(n=>n.cat))];
+  if(!cs.includes(cat))cat="الكل";
+  $("#cats").innerHTML=cs.map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
 }
 function cardActs(n){
-  if(tab==="new")return `<button class="btn-s" data-act="prog" data-id="${n.id}">⏳ قيد الإنجاز</button><button class="btn-s red" data-act="del" data-id="${n.id}">🗑 حذف</button>`;
-  if(tab==="done")return `<button class="btn-s" data-act="new" data-id="${n.id}">↩ رجّعه</button><button class="btn-s red" data-act="del" data-id="${n.id}">🗑 حذف</button>`;
-  return `<button class="btn-s gold" data-act="new" data-id="${n.id}">↩ استرجاع</button><button class="btn-s red" data-act="gone" data-id="${n.id}">حذف نهائي</button>`;
+  const id=esc(n.id);
+  if(tab==="new"||tab==="evergreen")return`<button class="btn-s" data-act="prog" data-id="${id}">⏳ قيد الإنجاز</button><button class="btn-s red" data-act="del" data-id="${id}">🗑 حذف</button>`;
+  if(tab==="prog")return`<button class="btn-s gold" data-act="ready" data-id="${id}">✓ جاهز</button><button class="btn-s" data-act="new" data-id="${id}">↩ رجوع</button>`;
+  if(tab==="ready")return`<button class="btn-s gold" data-act="pub" data-id="${id}">📣 منشور</button><button class="btn-s" data-act="prog" data-id="${id}">↩ رجوع</button>`;
+  if(tab==="pub")return`<button class="btn-s" data-act="ready" data-id="${id}">↩ رجوع</button>`;
+  return`<button class="btn-s gold" data-act="new" data-id="${id}">↩ استرجاع</button><button class="btn-s red" data-act="gone" data-id="${id}">حذف نهائي</button>`;
 }
 function renderGrid(){
   const list=visible(listFor(tab));
-  const emptyMsg={new:"ما فيه أخبار جديدة. اضغط «جيب أخبار جديدة» فوق",done:"ما أنجزت أخبار للحين",del:"سلة المحذوفات فاضية"}[tab];
-  $("#grid").innerHTML=list.length?list.map(n=>`
-   <div class="card ${sel.has(n.id)?'sel':''}" data-id="${n.id}" tabindex="0">
-     <button class="cb" data-sel="${n.id}" aria-label="تحديد">✓</button>
-     <div class="card-top"><span class="tag">${n.cat}</span><span class="date">${n.date}</span></div>
-     <h3>${n.title}</h3><p>${n.sum}</p>
-     <div class="card-foot">
-       <div class="fit">ملاءمة لجمهورك <span class="dots">${[1,2,3].map(i=>`<i class="${i<=n.fit?'f':''}"></i>`).join("")}</span></div>
-       <span class="ver ${n.ver}">${n.ver==='ok'?'● ':'▲ '}${n.verTxt}</span>
-     </div>
-     <div class="acts">${cardActs(n)}</div></div>`).join(""):`<div class="empty">${emptyMsg}</div>`;
+  const empty={new:"ما فيه أخبار جديدة. اضغط «جيب أخبار جديدة» فوق",evergreen:"ما فيه مواضيع دائمة",prog:"ما فيه شي قيد الإنجاز",ready:"ما فيه شي جاهز",pub:"ما نشرت شي للحين",del:"سلة المحذوفات فاضية"}[tab];
+  $("#grid").innerHTML=list.length?list.map(n=>{
+    const rw=repeatWarn(n),m=meta(n.id);
+    return`<div class="card ${sel.has(n.id)?'sel':''}" data-id="${esc(n.id)}" tabindex="0">
+     <button class="cb" data-sel="${esc(n.id)}" aria-label="تحديد">✓</button>
+     <div class="card-top"><span class="tag">${esc(n.cat)}</span><span class="date">${esc(n.date)}</span></div>
+     <h3>${esc(n.title)}</h3><p>${esc(n.sum)}</p>
+     <div class="badges">${legisBadge(n)}${rw?`<span class="bdg rep">⚠ نُشر موضوع مشابه ${esc(rw)}</span>`:""}${kindOf(n)==="evergreen"&&n.season?`<span class="bdg ev">موسم: ${esc(n.season)}</span>`:""}${m.pubAt?`<span class="bdg ev">نُشر ${esc(m.pubAt)}</span>`:""}${n.prior?`<span class="bdg ev">سبق نشره: ${esc(n.prior)}</span>`:""}</div>
+     <div class="card-foot"><div class="fit">ملاءمة لجمهورك <span class="dots">${[1,2,3].map(i=>`<i class="${i<=n.fit?'f':''}"></i>`).join("")}</span></div><span class="ver ${n.ver==='ok'?'ok':'warn'}">${n.ver==='ok'?'● ':'▲ '}${esc(n.verTxt)}</span></div>
+     <div class="acts">${cardActs(n)}</div></div>`}).join(""):`<div class="empty">${empty}</div>`;
 }
 function renderBulk(){
-  const b=$("#bulk");
-  if(!sel.size){b.classList.remove("on");return}
+  const b=$("#bulk");if(!sel.size){b.classList.remove("on");return}
   let btns="";
-  if(tab==="new")btns=`<button class="btn-s" data-bulk="prog">⏳ قيد الإنجاز</button><button class="btn-s gold" data-bulk="done">✓ تم الإنجاز</button><button class="btn-s red" data-bulk="del">🗑 حذف</button>`;
-  else if(tab==="done")btns=`<button class="btn-s" data-bulk="new">↩ رجّعهم</button><button class="btn-s red" data-bulk="del">🗑 حذف</button>`;
+  if(tab==="new"||tab==="evergreen")btns=`<button class="btn-s" data-bulk="prog">⏳ قيد الإنجاز</button><button class="btn-s red" data-bulk="del">🗑 حذف</button>`;
+  else if(tab==="prog")btns=`<button class="btn-s gold" data-bulk="ready">✓ جاهز</button><button class="btn-s" data-bulk="new">↩ رجوع</button><button class="btn-s red" data-bulk="del">🗑 حذف</button>`;
+  else if(tab==="ready")btns=`<button class="btn-s gold" data-bulk="pub">📣 منشور</button><button class="btn-s" data-bulk="prog">↩ رجوع</button>`;
+  else if(tab==="pub")btns=`<button class="btn-s" data-bulk="ready">↩ رجوع</button>`;
   else btns=`<button class="btn-s gold" data-bulk="new">↩ استرجاع</button><button class="btn-s red" data-bulk="gone">حذف نهائي</button>`;
-  b.innerHTML=`<span class="c">${sel.size} محدد</span>${btns}<button class="btn-s" data-bulk="clear">إلغاء التحديد</button>`;
-  b.classList.add("on");
+  b.innerHTML=`<span class="c">${sel.size} محدد</span>${btns}<button class="btn-s" data-bulk="clear">إلغاء التحديد</button>`;b.classList.add("on");
 }
-function render(){renderHeader();renderProg();renderTabs();renderCats();renderGrid();renderBulk()}
+function render(){renderHeader();renderPZ();renderTabs();renderCats();renderGrid();renderBulk()}
 
-/* events (delegation) */
 document.addEventListener("click",e=>{
-  const t=e.target;
-  let el;
+  const t=e.target;let el;
   if((el=t.closest("[data-sel]"))){e.stopPropagation();const id=el.dataset.sel;sel.has(id)?sel.delete(id):sel.add(id);renderGrid();renderBulk();return}
   if((el=t.closest("[data-act]"))){e.stopPropagation();doAct(el.dataset.act,[el.dataset.id]);return}
   if((el=t.closest("[data-bulk]"))){const a=el.dataset.bulk;if(a==="clear"){sel.clear();renderGrid();renderBulk()}else doAct(a,[...sel]);return}
   if((el=t.closest("[data-copy]"))){copyNews(find(el.dataset.copy));return}
   if((el=t.closest("[data-open]"))){openDrawer(el.dataset.open);return}
-  if((el=t.closest(".tab"))){tab=el.dataset.t;cat="all";cat="الكل";sel.clear();render();return}
+  if(t.closest("a[href]")){return}
+  if((el=t.closest(".tab"))){tab=el.dataset.t;cat="الكل";sel.clear();render();return}
   if((el=t.closest(".chip"))){cat=el.dataset.c;renderCats();renderGrid();return}
   if((el=t.closest(".card"))){openDrawer(el.dataset.id);return}
 });
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();$("#modal").classList.remove("open")}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();$("#modal").classList.remove("open");$("#smodal").classList.remove("open")}});
+const today=()=>new Date().toISOString().slice(0,10);
 function doAct(a,ids){
-  if(!ids.length)return;
-  const n=ids.length;
-  const msgs={prog:`نُقل ${n} لقيد الإنجاز`,done:`تم تسجيل ${n} كمنجز ✓`,del:`تم حذف ${n}`,new:`رجع ${n} للأخبار`,gone:`حُذف ${n} نهائياً`};
-  setStatus(ids,a,msgs[a]);
+  if(!ids.length)return;const n=ids.length;
+  const msgs={prog:`نُقل ${n} لقيد الإنجاز`,ready:`${n} صار جاهز`,pub:`تم تسجيل ${n} كمنشور`,del:`تم حذف ${n}`,new:`رجع ${n} للأخبار`,gone:`حُذف ${n} نهائياً`};
   closeDrawer();
+  if((a==="ready"||a==="pub")&&n===1){openStage(a,ids[0]);return}
+  setStatus(ids,a,msgs[a],a==="pub"?{pubAt:today()}:null);
 }
+function openStage(a,id){
+  const it=find(id);pending={a,id};
+  $("#stitle").textContent=a==="pub"?"تسجيل النشر":"اعتماد الكاروسيل";
+  $("#snote").textContent=it?it.title:"";
+  $("#scar").value=carOf(it)||"";
+  $("#sdwrap").style.display=a==="pub"?"":"none";$("#sdate").value=meta(id).pubAt||today();
+  $("#smodal").classList.add("open");
+}
+$("#scancel").onclick=()=>{$("#smodal").classList.remove("open");pending=null};
+$("#ssave").onclick=()=>{
+  if(!pending)return;const {a,id}=pending;pending=null;$("#smodal").classList.remove("open");
+  const extra={};const c=$("#scar").value.trim();if(c)extra.carousel=c;if(a==="pub")extra.pubAt=$("#sdate").value||today();
+  setStatus([id],a,a==="pub"?"تم تسجيل النشر":"صار جاهز",extra);
+};
 $("#q").oninput=e=>{qs=e.target.value.trim();renderGrid()};
 $("#selAll").onclick=()=>{const l=visible(listFor(tab)).map(n=>n.id);const all=l.every(id=>sel.has(id));l.forEach(id=>all?sel.delete(id):sel.add(id));renderGrid();renderBulk()};
 
-/* drawer */
+function legisHTML(n){
+  const L=n.legis;if(!L)return"";
+  let h="";
+  (L.decrees||[]).forEach(d=>{
+    const lw=(d.laws||[]).map(x=>`${esc(x.name)} ص PDF ${x.pdf_page}`).join("، ");
+    const st={found:"موجود بالمرجع كقانون مستقل",mentioned:"مذكور بالمرجع داخل نص قانون آخر",missing:"غير موجود بالمرجع"}[d.status]||d.status;
+    h+=`<div><b>${esc(d.ref)}</b> · ${st}${lw?" · "+lw:""}</div>`;
+  });
+  (L.refs||[]).forEach(r=>{h+=`<div>${esc(r.law)} · المادة ${esc(r.article||"؟")}${r.pdf_page?" · ص PDF "+r.pdf_page:" · غير مفهرسة"}</div>`});
+  if(!h)return"";
+  return`<div class="sec"><h4>التحقق من مرجع التشريعات (حتى ${esc(L.source_date||"؟")})</h4><div class="lg">${h}</div></div>`;
+}
 function openDrawer(id){
-  cur=find(id);if(!cur)return;const n=cur;
+  cur=find(id);if(!cur)return;const n=cur,st=stOf(id),car=carOf(n),m=meta(id);
   $("#dr").innerHTML=`<button class="close" id="x" aria-label="إغلاق">✕</button>
-   <span class="tag">${n.cat}</span> <span class="date" style="margin-inline-start:8px">${n.date}</span>
-   <h2>${n.title}</h2>
-   <div class="sec"><h4>الخلاصة</h4><p>${n.sum}</p></div>
-   <div class="sec"><h4>النقاط الأساسية</h4><ul>${n.pts.map(p=>`<li>${p}</li>`).join("")}</ul></div>
+   <span class="tag">${esc(n.cat)}</span> <span class="date" style="margin-inline-start:8px">${esc(n.date)}</span> <span class="date" style="margin-inline-start:8px">المرحلة: ${STAGES[st]}</span>
+   <h2>${esc(n.title)}</h2>
+   <div class="sec"><h4>الخلاصة</h4><p>${esc(n.sum)}</p></div>
+   <div class="sec"><h4>النقاط الأساسية</h4><ul>${(n.pts||[]).map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
    ${n.angle?`<div class="sec"><h4>هوك مقترح بلهجتك</h4><div class="hook">${n.angle}</div></div>`:""}
-   ${n.pair?`<div class="sec"><h4>ارتباط بأعمالك</h4><p>${n.pair}</p></div>`:""}
-   <div class="sec"><h4>حالة التحقق</h4><p class="ver ${n.ver}" style="font-size:15px">${n.ver==='ok'?'● ':'▲ '}${n.verTxt}</p></div>
-   <div class="sec src"><h4>المصادر</h4><ul>${n.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]} ↗</a></li>`).join("")}</ul></div>`;
-  const st=stOf(id);
-  $("#progBtn").textContent=st==="prog"?"✓ تم الإنجاز":(st==="new"?"⏳ قيد الإنجاز":"↩ رجّعه");
-  $("#progBtn").dataset.mode=st==="prog"?"done":(st==="new"?"prog":"new");
-  $("#delBtn").style.display=(st==="del")?"none":"";
-  $("#ov").classList.add("open");$("#dr").classList.add("open");$("#bar").classList.add("open");
-  $("#x").onclick=closeDrawer;
+   ${n.pair?`<div class="sec"><h4>ارتباط بأعمالك</h4><p>${esc(n.pair)}</p></div>`:""}
+   ${legisHTML(n)}
+   ${car?`<div class="sec"><h4>الكاروسيل</h4><p><a class="btn-s" href="${esc(car)}" target="_blank" rel="noopener">فتح الكاروسيل</a>${m.pubAt?" · نُشر "+esc(m.pubAt):""}</p></div>`:""}
+   <div class="sec"><h4>حالة التحقق</h4><p class="ver ${n.ver==='ok'?'ok':'warn'}" style="font-size:15px">${n.ver==='ok'?'● ':'▲ '}${esc(n.verTxt)}</p></div>
+   <div class="sec src"><h4>المصادر</h4><ul>${(n.src||[]).map(s=>`<li><a href="${esc(s[1])}" target="_blank" rel="noopener">${esc(s[0])} ↗</a></li>`).join("")}</ul></div>`;
+  const nx=NEXT[st],pv=PREV[st];
+  $("#fwdBtn").style.display=nx?"":"none";if(nx)$("#fwdBtn").textContent={prog:"⏳ قيد الإنجاز",ready:"✓ جاهز",pub:"📣 منشور"}[nx];
+  $("#fwdBtn").dataset.to=nx||"";
+  $("#backBtn").style.display=(pv||st==="del")?"":"none";$("#backBtn").dataset.to=st==="del"?"new":(pv||"");
+  $("#delBtn").style.display=(st==="del"||st==="gone")?"none":"";
+  $("#ov").classList.add("open");$("#dr").classList.add("open");$("#bar").classList.add("open");$("#x").onclick=closeDrawer;
 }
 function closeDrawer(){$("#ov").classList.remove("open");$("#dr").classList.remove("open");$("#bar").classList.remove("open")}
 $("#ov").onclick=closeDrawer;$("#closeBtn").onclick=closeDrawer;
-$("#progBtn").onclick=()=>{if(cur)doAct($("#progBtn").dataset.mode,[cur.id])};
+$("#fwdBtn").onclick=()=>{if(cur&&$("#fwdBtn").dataset.to)doAct($("#fwdBtn").dataset.to,[cur.id])};
+$("#backBtn").onclick=()=>{if(cur&&$("#backBtn").dataset.to)doAct($("#backBtn").dataset.to,[cur.id])};
 $("#delBtn").onclick=()=>{if(cur)doAct("del",[cur.id])};
 
-/* copy */
 function buildText(n){
-  return ["ابنِ لي كاروسيل عن هالخبر:","","العنوان: "+n.title,"التصنيف: "+n.cat+" | التاريخ: "+n.date,"الخلاصة: "+n.sum,"النقاط:",...n.pts.map(p=>"- "+p),
-    n.angle?"زاوية مقترحة: "+n.angle.replace(/<[^>]+>/g,""):"","حالة التحقق: "+n.verTxt,"المصادر: "+n.src.map(s=>s[1]).join(" , ")].join("\n");
+  const L=n.legis,lg=[];
+  if(L){(L.decrees||[]).forEach(d=>lg.push(d.ref+": "+({found:"موجود بالمرجع",mentioned:"مذكور بالمرجع",missing:"غير موجود بالمرجع"}[d.status]||d.status)+(d.laws&&d.laws[0]?" ص PDF "+d.laws[0].pdf_page:"")));(L.refs||[]).forEach(r=>lg.push(r.law+" المادة "+r.article+(r.pdf_page?" ص PDF "+r.pdf_page:"")))}
+  return["ابنِ لي كاروسيل عن هالخبر:","","العنوان: "+n.title,"التصنيف: "+n.cat+" | التاريخ: "+n.date,"الخلاصة: "+n.sum,"النقاط:",...(n.pts||[]).map(p=>"- "+p),
+    n.angle?"زاوية مقترحة: "+n.angle.replace(/<[^>]+>/g,""):"",
+    lg.length?"التحقق من المرجع:\n"+lg.map(x=>"- "+x).join("\n"):"",
+    "حالة التحقق: "+n.verTxt,"المصادر: "+(n.src||[]).map(s=>s[1]).join(" , "),"معرّف الخبر: "+n.id].filter(Boolean).join("\n");
 }
-async function writeClip(t){
-  try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}
-}
+async function writeClip(t){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}}
 async function copyNews(n){
   await writeClip(buildText(n));
-  const st=stOf(n.id);
-  if(st==="new")toast("تم النسخ ✓ الصقه في المحادثة","نقله لقيد الإنجاز",()=>setStatus([n.id],"prog","نُقل لقيد الإنجاز"));
+  if(stOf(n.id)==="new")toast("تم النسخ ✓ الصقه في المحادثة","نقله لقيد الإنجاز",()=>setStatus([n.id],"prog","نُقل لقيد الإنجاز"));
   else toast("تم النسخ ✓ الصقه في المحادثة");
 }
 $("#copyBtn").onclick=()=>{if(cur)copyNews(cur)};
 
-/* refresh request */
 function buildRefresh(){
-  const c=counts();
-  const rep=c.done+c.del+c.gone;
-  const ex=[];
-  Object.keys(state.status).forEach(id=>{const it=find(id);if(it)ex.push("- "+it.title+" ["+({prog:"قيد الإنجاز",done:"منجز",del:"محذوف",gone:"محذوف نهائياً"}[state.status[id]])+"]")});
+  const c=counts(),rep=c.pub+c.del+c.gone,ex=[];
+  Object.keys(state.status).forEach(id=>{const it=find(id);if(it)ex.push("- "+it.title+" ["+STAGES[state.status[id]]+"]")});
   const keep=listFor("new").map(n=>"- "+n.title);
-  return ["جيب لي أخبار قانونية كويتية جديدة وحدّث الداشبورد.","",
-    "عدد الأخبار اللي تنجز أو انحذفت وأبي بدالها: "+rep,
-    "","لا تكرر هالأخبار (انتهيت منها أو حذفتها أو قيد الإنجاز):",...(ex.length?ex:["- لا يوجد"]),
+  return["جيب لي أخبار قانونية كويتية جديدة وحدّث الداشبورد.","","عدد الأخبار اللي نُشرت أو انحذفت وأبي بدالها: "+rep,
+    "","لا تكرر هالأخبار (نُشرت أو انحذفت أو قيد الإنجاز أو جاهزة):",...(ex.length?ex:["- لا يوجد"]),
     "","الأخبار اللي أبقيها بالداشبورد كما هي:",...(keep.length?keep:["- لا يوجد"]),
-    "","اشترط: من مصادر كويتية منشورة، مع حالة التحقق والمصدر لكل خبر. ما أبي يرجع خبر انحذف."].join("\n");
+    "","اشترط: من مصادر كويتية منشورة، مع حالة التحقق والمصدر لكل خبر، وشغّل enrich_news لمطابقتها مع مرجع التشريعات. ما أبي يرجع خبر انحذف."].join("\n");
 }
 $("#refreshBtn").onclick=()=>{
-  const c=counts();const rep=c.done+c.del+c.gone;
-  $("#mnote").textContent=(rep?`عندك ${rep} خبر منجز أو محذوف.`:"ما عندك أخبار منجزة أو محذوفة للحين.")+" الأخبار الجديدة أجيبها لك أنا بالمحادثة: انسخ هالطلب والصقه هناك وأحدّث لك الداشبورد، وحالة أخبارك تبقى محفوظة.";
-  $("#mtext").value=buildRefresh();
-  $("#modal").classList.add("open");
+  const c=counts(),rep=c.pub+c.del+c.gone;
+  $("#mnote").textContent=(rep?`عندك ${rep} خبر منشور أو محذوف.`:"ما عندك أخبار منشورة أو محذوفة للحين.")+" الأخبار الجديدة أجيبها لك أنا بالمحادثة: انسخ هالطلب والصقه هناك، وحالة أخبارك تبقى محفوظة.";
+  $("#mtext").value=buildRefresh();$("#modal").classList.add("open");
 };
 $("#mcopy").onclick=async()=>{await writeClip($("#mtext").value);toast("تم نسخ الطلب ✓ الصقه في المحادثة")};
 $("#mclose").onclick=()=>$("#modal").classList.remove("open");
 $("#modal").onclick=e=>{if(e.target.id==="modal")$("#modal").classList.remove("open")};
 
-/* toast */
+$("#expBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify({kind:"news-state",version:2,exported:new Date().toISOString(),handle:BRAND.handle,state},null,1)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="news-state-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+  toast("تم تصدير الحالة ✓");
+};
+$("#impBtn").onclick=()=>$("#impFile").click();
+$("#impFile").onchange=e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);const s=migrate(d.state||d);
+      if(!s||!s.status)throw new Error("bad");
+      let n=0;Object.keys(s.status).forEach(id=>{state.status[id]=s.status[id];n++});
+      Object.assign(state.snap,s.snap);Object.assign(state.meta,s.meta);save();render();toast("تم استيراد "+n+" حالة ✓");
+    }catch(err){toast("الملف مو صالح")}
+  };
+  r.readAsText(f);
+};
+
 let tt;
 function toast(msg,actLabel,fn){
-  const el=$("#toast");$("#tmsg").textContent=msg;
-  const b=$("#tact");
+  const el=$("#toast");$("#tmsg").textContent=msg;const b=$("#tact");
   if(actLabel){b.style.display="";b.textContent=actLabel;b.onclick=()=>{el.classList.remove("show");fn&&fn()}}else{b.style.display="none";b.onclick=null}
   el.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("show"),actLabel?5000:2200);
 }

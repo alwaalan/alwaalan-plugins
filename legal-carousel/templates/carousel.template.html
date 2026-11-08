@@ -6,13 +6,11 @@
 <meta name="slide-count" content="__COUNT__">
 <meta name="slide-size" content="__SIZE__">
 <title>__TITLE__</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=__FONT_Q__:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+__FONT_HEAD__
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
-:root{--bg:#0E1B2E;--bg2:#12233A;--card:#1B3050;--card-hot:#26405F;--gold:#C9A55C;--text:#F3EFE6;--muted:#8FA0B8;--rgb:201,165,92;--font:'Cairo'}
+:root{--bg:#0E1B2E;--bg2:#12233A;--card:#1B3050;--card-hot:#26405F;--gold:#C9A55C;--text:#F3EFE6;--muted:#8FA0B8;--rgb:201,165,92;--font:'Cairo';--W:1080px;--H:1440px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font),'Cairo',sans-serif;background:#09121f;color:var(--text);direction:rtl;text-align:right;min-height:100vh}
 .logo-s,.logo-b{background:url(data:image/png;base64,__LOGO__) center/contain no-repeat}
@@ -46,15 +44,15 @@ select{font:inherit;font-size:14px;background:var(--card);color:var(--text);bord
 .toast.show{opacity:1}
 
 /* ===== slides ===== */
-.slide{width:1080px;height:1440px;position:relative;overflow:hidden;background:var(--bg);font-family:var(--font),'Cairo',sans-serif;direction:rtl;text-align:right;color:var(--text)}
+.slide{width:var(--W);height:var(--H);position:relative;overflow:hidden;background:var(--bg);font-family:var(--font),'Cairo',sans-serif;direction:rtl;text-align:right;color:var(--text)}
 .slide.alt{background:var(--bg2)}
-.pat{position:absolute;inset:0;width:1080px;height:1440px}
+.pat{position:absolute;inset:0;width:100%;height:100%}
 .frame{position:absolute;left:40px;top:40px;right:40px;bottom:40px;border:2px solid rgba(var(--rgb),.6)}
 .hd{position:absolute;top:96px;left:90px;right:90px;height:64px;display:flex;justify-content:space-between;align-items:center}
 .tag{font-size:42px;font-weight:700;color:var(--muted);unicode-bidi:isolate}
 .cnt{font-size:44px;font-weight:800;color:var(--gold);direction:ltr;unicode-bidi:isolate}
 .logo-s{position:absolute;top:54px;left:50%;margin-left:-52px;width:104px;height:208px}
-.ft{position:absolute;left:90px;right:90px;top:1290px;height:110px;box-sizing:border-box;border-top:3px solid var(--gold);padding:0;display:flex;justify-content:space-between;align-items:center}
+.ft{position:absolute;left:90px;right:90px;top:calc(var(--H) - 150px);height:110px;box-sizing:border-box;border-top:3px solid var(--gold);padding:0;display:flex;justify-content:space-between;align-items:center}
 .ft .nm{font-size:40px;font-weight:800;color:var(--text)}
 .ft .hn{font-size:38px;font-weight:700;color:var(--muted);direction:ltr;unicode-bidi:isolate}
 .mid{position:absolute;left:90px;right:90px;top:272px;bottom:150px;display:flex;flex-direction:column;justify-content:center}
@@ -69,7 +67,7 @@ p.b{font-size:46px;font-weight:400;line-height:1.7;color:var(--text);margin-top:
 .sub{font-size:42px;font-weight:600;color:var(--muted)}
 
 /* cover */
-.cover .logo-b{position:absolute;top:120px;left:50%;margin-left:-105px;width:210px;height:420px}
+.cover .logo-b{position:absolute;top:calc(var(--H) * .0833);left:50%;margin-left:-105px;width:210px;height:420px}
 .cover .txt{position:absolute;left:90px;right:90px;bottom:250px}
 .cover h2{font-size:136px;line-height:1.2;margin-top:0}
 .cover p.b{font-size:58px;font-weight:600;line-height:1.55;margin-top:30px}
@@ -80,6 +78,8 @@ p.b{font-size:46px;font-weight:400;line-height:1.7;color:var(--text);margin-top:
 .row{background:var(--card);border:2px solid rgba(var(--rgb),.4);border-radius:28px;padding:24px 34px;display:flex;justify-content:space-between;align-items:center}
 .row .n{font-size:48px;font-weight:800;color:var(--text)}
 .row .y{font-size:46px;font-weight:800;color:var(--gold)}
+.rows.compact .n{font-size:40px}
+.rows.compact .y{font-size:40px}
 .chips{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
 .chip{background:var(--card);border:2px solid rgba(var(--rgb),.35);border-radius:26px;padding:16px 22px;font-size:40px;font-weight:700;color:var(--text);line-height:1.35;display:flex;align-items:center;min-height:104px}
 .chip.hot{border-color:var(--gold);background:var(--card-hot);color:var(--gold);font-weight:900}
@@ -91,6 +91,19 @@ p.b{font-size:46px;font-weight:400;line-height:1.7;color:var(--text);margin-top:
 .cta .l1{font-size:44px;font-weight:800;color:var(--text)}
 .cta .l2{font-size:42px;font-weight:600;color:var(--muted)}
 .cta .ph{font-size:68px;font-weight:900;color:var(--gold);direction:ltr;unicode-bidi:isolate}
+/* extra slide types */
+.stat-big{font-size:230px;font-weight:900;color:var(--gold);line-height:1.05;direction:ltr;unicode-bidi:isolate;text-align:right;align-self:stretch}
+.stat-unit{font-size:62px;font-weight:800;color:var(--text);margin-top:4px}
+.duo{width:100%;display:flex;flex-direction:column;gap:22px;margin-top:26px}
+.opt{border-radius:28px;padding:26px 34px;border:2px solid rgba(var(--rgb),.35);background:var(--card)}
+.opt .lb{font-size:40px;font-weight:800;color:var(--muted);margin-bottom:6px}
+.opt .tx{font-size:46px;font-weight:600;line-height:1.5;color:var(--text)}
+.opt.bad{border-color:rgba(143,160,184,.45)}
+.opt.bad .tx{color:var(--muted)}
+.opt.good{border-color:var(--gold);background:var(--card-hot)}
+.opt.good .lb{color:var(--gold)}
+.opt.q .lb{color:var(--gold)}
+.opt.q .tx{font-size:42px}
 </style>
 </head>
 <body>
@@ -116,6 +129,7 @@ p.b{font-size:46px;font-weight:400;line-height:1.7;color:var(--text);margin-top:
   </div>
   <div class="side">
     <div class="box" id="capBox"><h3>الكابشن المقترح</h3><pre id="cap"></pre><div style="margin-top:10px"><button class="btn" id="copyCap">📋 انسخ الكابشن</button></div></div>
+    <div class="box" id="scrBox" style="display:none"><h3>نص مقطع قصير (تيك توك)</h3><pre id="scr"></pre><div style="margin-top:10px"><button class="btn" id="copyScr">📋 انسخ النص</button></div></div>
     <div class="box"><h3>المصادر</h3><ul id="srcs"></ul><p class="note" id="notes"></p></div>
   </div>
 </div>
@@ -133,7 +147,7 @@ function hexRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(functio
 var RS=document.documentElement.style;
 RS.setProperty('--bg',C.bg);RS.setProperty('--bg2',C.bgAlt||C.bg);RS.setProperty('--card',C.card);
 RS.setProperty('--card-hot',C.cardHot||C.card);RS.setProperty('--gold',C.accent);RS.setProperty('--text',C.text);
-RS.setProperty('--muted',C.muted);RS.setProperty('--rgb',hexRgb(C.accent));RS.setProperty('--font',"'"+(BRAND.font||'Cairo')+"'");
+RS.setProperty('--muted',C.muted);RS.setProperty('--rgb',hexRgb(C.accent));RS.setProperty('--font',"'"+(BRAND.font||'Cairo')+"'");RS.setProperty('--W',CW+'px');RS.setProperty('--H',CH+'px');
 
 /* ---- icons (200x200 viewBox, stroke only) ---- */
 var ICONS={
@@ -174,7 +188,7 @@ function build(s,i,n){
        +(s.sub?'<p class="b">'+s.sub+'</p>':'')+(s.go?'<div class="go">'+s.go+'</div>':'')+'</div>';
      break;
    case 'list':
-     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="rows">'
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="rows'+(s.compact?' compact':'')+'">'
        +s.rows.map(function(r){return '<div class="row"><span class="n">'+r[0]+'</span><span class="y">'+r[1]+'</span></div>'}).join('')+'</div>'
        +(s.note?'<div class="sub" style="margin-top:30px">'+s.note+'</div>':'')+'</div></div>';
      break;
@@ -190,6 +204,31 @@ function build(s,i,n){
      var cta=BRAND.cta||{};
      inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid">'+icon('bookmark')+'<div class="txt">'+h2({title:s.title||'احفظ البوست',titleSize:s.titleSize})
        +body({body:s.body||'وارجع له إذا احتجته'})+'<div class="cta"><div><div class="l1">'+(cta.line1||'')+'</div><div class="l2">'+(cta.line2||'')+'</div></div><div class="ph">'+(cta.phone||'')+'</div></div></div></div>';
+     break;
+   case 'stat':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+'<div class="stat-big">'+s.big+'</div>'
+       +(s.unit?'<div class="stat-unit">'+s.unit+'</div>':'')+(s.title?h2({title:s.title,titleSize:s.titleSize||72}):'')+body(s)+pill(s)+'</div></div>';
+     break;
+   case 'mistake':
+     var lab=s.labels||['خطأ','صح'];
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="duo">'
+       +'<div class="opt bad"><div class="lb">'+lab[0]+'</div><div class="tx">'+s.wrong+'</div></div>'
+       +'<div class="opt good"><div class="lb">'+lab[1]+'</div><div class="tx">'+s.right+'</div></div></div>'+pill(s)+'</div></div>';
+     break;
+   case 'compare':
+     var cl2=s.labels||['قبل','بعد'];
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="duo">'
+       +'<div class="opt bad"><div class="lb">'+cl2[0]+'</div><div class="tx">'+s.before+'</div></div>'
+       +'<div class="opt good"><div class="lb">'+cl2[1]+'</div><div class="tx">'+s.after+'</div></div></div>'+pill(s)+'</div></div>';
+     break;
+   case 'faq':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid"><div class="txt">'+num(s)+h2(s)+'<div class="duo">'
+       +s.items.map(function(q){return '<div class="opt q"><div class="lb">'+q[0]+'</div><div class="tx">'+q[1]+'</div></div>'}).join('')+'</div></div></div>';
+     break;
+   case 'ruling':
+     inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid">'+icon('gavel')+'<div class="txt">'
+       +(s.court?'<div class="sub">'+s.court+'</div>':'')+h2({title:s.title,titleSize:s.titleSize||78})
+       +'<div class="duo"><div class="opt good"><div class="lb">'+(s.label||'المبدأ')+'</div><div class="tx">'+s.principle+'</div></div></div>'+pill(s)+'</div></div>';
      break;
    default: /* point + share */
      inner=head(s,i,n)+'<div class="logo-s"></div><div class="mid">'+(s.icon?icon(s.icon):'')+'<div class="txt">'+num(s)+h2(s)+body(s)+pill(s)+'</div></div>';
@@ -207,6 +246,7 @@ document.getElementById('o1').textContent=CW+'×'+CH+' (انستقرام)';
 document.getElementById('o2').textContent=(CW*2)+'×'+(CH*2)+' (عالية)';
 var CAPTION=META.caption||'';
 if(CAPTION){document.getElementById('cap').textContent=CAPTION}else{document.getElementById('capBox').style.display='none'}
+if(META.script){document.getElementById('scrBox').style.display='';document.getElementById('scr').textContent=META.script;document.getElementById('copyScr').onclick=async function(){try{await navigator.clipboard.writeText(META.script)}catch(e){}toast('تم نسخ النص ✓')}}
 document.getElementById('srcs').innerHTML=(META.sources||[]).map(function(s){return '<li>'+(typeof s==='string'?s:'<a target="_blank" rel="noopener" href="'+s[1]+'">'+s[0]+'</a>')+'</li>'}).join('');
 document.getElementById('notes').textContent=META.notes||'';
 
@@ -249,6 +289,49 @@ async function fontsReady(){
     await document.fonts.load('700 44px '+FONT);await document.fonts.load('400 50px '+FONT);
     await document.fonts.ready;await document.fonts.ready;
   }catch(e){}
+}
+/* ---- layout self-check: open the file with ?check=1 (used by check_deck.py) ---- */
+if(/[?&]check=1/.test(location.search)){
+  (async function(){
+    await fontsReady();
+    var out=[];
+    for(var i=0;i<slides.length;i++){
+      var tmp=document.createElement('div');
+      tmp.style.cssText='position:absolute;left:0;top:0;width:'+CW+'px;height:'+CH+'px;visibility:hidden';
+      var cl=slides[i].cloneNode(true);tmp.appendChild(cl);document.body.appendChild(tmp);
+      var R=cl.getBoundingClientRect(),issues=[],m={};
+      var rel=function(el){var r=el.getBoundingClientRect();return{l:r.left-R.left,t:r.top-R.top,r:r.right-R.left,b:r.bottom-R.top}};
+      var ft=cl.querySelector('.ft'),ftr=ft?rel(ft):null;
+      var logo=cl.querySelector('.logo-s')||cl.querySelector('.logo-b'),lr=logo?rel(logo):null;
+      var txt=cl.querySelector('.txt');
+      if(txt){
+        var top=1e9,bot=0;
+        [].forEach.call(txt.querySelectorAll('h2,p,.pill,.rows,.chips,.steps,.cta,.go,.sub,.num'),function(k){var r=rel(k);if(r.b>bot)bot=r.b;if(r.t<top)top=r.t});
+        m.txtTop=Math.round(top);m.txtBottom=Math.round(bot);
+        if(ftr&&bot>ftr.t-12)issues.push('النص ينزل على الخط الذهبي السفلي بمقدار '+Math.round(bot-(ftr.t-12))+'px');
+        var tol=cl.classList.contains('cover')?-30:8;
+        if(lr&&top<lr.b+tol)issues.push('النص يلمس الشعار بمقدار '+Math.round(lr.b+tol-top)+'px');
+      }
+      [].forEach.call(cl.querySelectorAll('h2,p,.pill,.row,.chip,.step,.cta,.go,.sub,.num,.nm,.hn,.tag,.cnt'),function(el){
+        var r=rel(el);
+        if(r.l<42||r.r>CW-42)issues.push('عنصر يطلع خارج الإطار: '+(el.className||el.tagName));
+        if(el.scrollWidth>el.clientWidth+2&&getComputedStyle(el).display!=='inline')issues.push('نص يتجاوز عرض عنصره: '+(el.className||el.tagName));
+      });
+      var minf=999,w=document.createTreeWalker(cl,NodeFilter.SHOW_TEXT),n;
+      while((n=w.nextNode())){if(n.nodeValue.trim()){var fs=parseFloat(getComputedStyle(n.parentElement).fontSize);if(fs<minf)minf=fs}}
+      m.minFont=minf;if(minf<38)issues.push('أصغر خط '+minf+'px أقل من 38px');
+      if(ftr){
+        [].forEach.call(cl.querySelectorAll('.nm,.hn'),function(el){
+          var r=rel(el);
+          if(r.t<ftr.t+8)issues.push('الاسم أو الحساب يلمس الخط الذهبي');
+          if(r.b>CH-48)issues.push('الاسم أو الحساب يلمس الإطار السفلي');
+        });
+      }
+      out.push({slide:i+1,issues:issues,metrics:m});
+      tmp.remove();
+    }
+    var pre=document.createElement('pre');pre.id='__check';pre.textContent=JSON.stringify(out);document.body.appendChild(pre);
+  })();
 }
 async function renderSlide(i,scale){
   await fontsReady();

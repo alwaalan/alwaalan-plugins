@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.legal-carousel/
+node_modules/
+*.log

@@ -5,6 +5,7 @@
   find_article.py article <قانون أو رقم الملف> <رقم المادة> [--full]
   find_article.py search "كلمات" [--law قانون] [--top 8]
   find_article.py page <رقم صفحة PDF> [--out صورة.png] [--dpi 110]
+  find_article.py amendments <قانون> [--year 2026]   (هوامش التعديل: مضافة/معدلة/مستبدلة/ملغاة بموجب ...)
 
 IMPORTANT: the text was machine-extracted from the PDF and can lose letters (the letter م
 inside some ligatures, e.g. "الأعمال" -> "الأعال"). Use the text to FIND the article and its
@@ -71,6 +72,52 @@ def page_of(text, offset):
     return last
 
 
+
+FOOT_VERB = re.compile("(مضاف|معدل|مستبدل|ملغ|استبدل|أضيف|اضيف|عدلت|مضافه|معدله)")
+FOOT_REF = re.compile(r"(?:رقم)?\s*([\d٠-٩]{1,4})\s*لسنة\s*([\d٠-٩]{4})")
+AR = str.maketrans("٠١٢٣٤٥٦٧٨٩", "0123456789")
+
+
+def page_bodies(text):
+    parts = PAGE_MARK.split(text)
+    return {int(parts[i]): parts[i + 1] for i in range(1, len(parts) - 1, 2)}
+
+
+def notes_in(body):
+    out = []
+    for line in body.split(chr(10)):
+        l = line.strip()
+        if FOOT_VERB.search(l) and FOOT_REF.search(l) and ("بموجب" in l or "وفق" in l):
+            out.append(re.sub(r"\s+", " ", l))
+    return out
+
+
+def cmd_amendments(a):
+    ix = load_index()
+    law = pick_law(ix, a.law)
+    bodies = page_bodies(law_text(law))
+    rows = []
+    counts = {}
+    for pg in sorted(bodies):
+        for n in notes_in(bodies[pg]):
+            rows.append((pg, n))
+            for m in FOOT_REF.finditer(n.translate(AR)):
+                k = "%d/%s" % (int(m.group(1)), m.group(2))
+                counts[k] = counts.get(k, 0) + 1
+    if a.year:
+        rows = [(p, n) for p, n in rows if a.year in n.translate(AR)]
+    print("القانون: %s | هوامش تعديل: %d" % (law["name"], len(rows)))
+    if counts:
+        print("القوانين والمراسيم المذكورة بالهوامش: " + "، ".join(
+            "%s (%d)" % (k, v) for k, v in sorted(counts.items(), key=lambda kv: -kv[1])[:12]))
+    print("ملاحظة: الهامش يظهر بصفحته، وقد يخص مادة غير المادة المجاورة. تحقق بصورة الصفحة.")
+    print("-" * 60)
+    for pg, n in rows[: a.top]:
+        print("ص PDF %d: %s" % (pg, n[:220]))
+    if len(rows) > a.top:
+        print("… (%d هامش إضافي، استخدم --top)" % (len(rows) - a.top))
+
+
 def cmd_list(a):
     ix = load_index()
     g = norm(a.grep) if a.grep else None
@@ -106,6 +153,16 @@ def cmd_article(a):
     print("⚠ نص مستخرج آليا قد يفقد حروف (مثل م). تحقق بصورة الصفحة قبل الاقتباس: find_article.py page %d" % pg)
     print("-" * 60)
     print(body.strip())
+    bodies = page_bodies(text)
+    notes = []
+    for p in pages:
+        for n in notes_in(bodies.get(p, "")):
+            notes.append((p, n))
+    if notes:
+        print("-" * 60)
+        print("هوامش التعديل بصفحات المادة (قد يخص بعضها مادة ثانية بنفس الصفحة، تحقق بصورة الصفحة):")
+        for p, n in notes[:8]:
+            print("  ص PDF %d: %s" % (p, n[:200]))
 
 
 def cmd_search(a):
@@ -172,6 +229,7 @@ def main():
     s = sub.add_parser("article"); s.add_argument("law"); s.add_argument("number"); s.add_argument("--full", action="store_true"); s.set_defaults(fn=cmd_article)
     s = sub.add_parser("search"); s.add_argument("query"); s.add_argument("--law"); s.add_argument("--top", type=int, default=8); s.set_defaults(fn=cmd_search)
     s = sub.add_parser("page"); s.add_argument("page", type=int); s.add_argument("--out"); s.add_argument("--dpi", type=int, default=110); s.set_defaults(fn=cmd_page)
+    s = sub.add_parser("amendments"); s.add_argument("law"); s.add_argument("--year"); s.add_argument("--top", type=int, default=25); s.set_defaults(fn=cmd_amendments)
     a = ap.parse_args()
     a.fn(a)
 

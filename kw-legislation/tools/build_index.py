@@ -125,6 +125,13 @@ def article_index(text_pages):
     return "".join(full), arts
 
 
+def source_date(pages):
+    """Read the 'التعديلات حتى YYYY / M / D' line printed on page 1 (Arabic or Latin digits)."""
+    t = BIDI.sub("", pages[0] if pages else "").translate(AR_DIGITS)
+    m = re.search(r"التعديلات حتى\s*(\d{4})\s*/\s*(\d{1,2})\s*/\s*(\d{1,2})", t)
+    return "%s-%02d-%02d" % (m.group(1), int(m.group(2)), int(m.group(3))) if m else ""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdf", required=True)
@@ -136,7 +143,7 @@ def main():
         f.unlink()
     pages = extract_pages(a.pdf)
     segs = segment(pages)
-    index = {"source_pages": len(pages), "laws": []}
+    index = {"source_pages": len(pages), "source_date": source_date(pages), "laws": []}
     for n, s in enumerate(segs, 1):
         tp = []
         for pg in range(s["start"], s["end"] + 1):
@@ -150,6 +157,9 @@ def main():
             "pdf_start": s["start"], "pdf_end": s["end"],
             "chars": len(text), "articles": arts,
         })
+    prev = out / "index.json"
+    if prev.exists():
+        shutil.copyfile(prev, out / "index.prev.json")
     (out / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
     print("laws:", len(index["laws"]), "pages:", len(pages))
 
