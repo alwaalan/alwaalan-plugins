@@ -51,6 +51,7 @@ def load_brand(project):
 def cmd_doctor(_):
     ok = True
     print("ffmpeg:", shutil.which("ffmpeg") or "مفقود"); ok &= bool(shutil.which("ffmpeg"))
+    print("ffprobe:", shutil.which("ffprobe") or "مفقود (يجي مع ffmpeg، تأكد إنهم بنفس المجلد وبالـ PATH)"); ok &= bool(shutil.which("ffprobe"))
     if shutil.which("ffmpeg"):
         flt = run(["ffmpeg", "-hide_banner", "-filters"]).stdout
         for f in ("afftdn", "loudnorm", "acompressor", "ass", "showwaves"):
